@@ -29,5 +29,11 @@ namespace CharceApp.Models
         {
             return new ApplicationDbContext();
         }
+
+       public DbSet<PersonalAccount> personalaccounts { get; set; }
+       public DbSet<BusinessAccount> businessaccounts { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<FilePath> FilePaths { get; set; }
+        public DbSet<ProfilePic> profilepics { get; set; }
     }
 }

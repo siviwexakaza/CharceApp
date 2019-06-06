@@ -13,5 +13,7 @@ namespace CharceApp.Models
         public string Surname { get; set; }
         public string Province { get; set; }
         public string City { get; set; }
+        public virtual ApplicationUser AppUser { get; set; }
+        public string AppUserId { get; set; }
     }
 }

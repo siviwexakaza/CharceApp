@@ -151,10 +151,25 @@ namespace CharceApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationDbContext db = new ApplicationDbContext();
+                
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    PersonalAccount personalAcc = new PersonalAccount()
+                    {
+                        Names = model.Name,
+                        Surname = model.Surname,
+                        PhoneNumber = model.PhoneNumber,
+                        Province = model.Province,
+                        City = model.City,
+                        AppUserId = user.Id
+                    };
+
+                    db.personalaccounts.Add(personalAcc);
+                    db.SaveChanges();
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -163,7 +178,7 @@ namespace CharceApp.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Create", "ProfilePics");
                 }
                 AddErrors(result);
             }
