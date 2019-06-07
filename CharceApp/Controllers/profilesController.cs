@@ -18,7 +18,7 @@ namespace CharceApp.Controllers
        
         **/
 
-        public ActionResult AddProfile(BusinessAccountVM obj)
+        public JsonResult AddProfile(BusinessAccountVM obj)
         {
             string myId = User.Identity.GetUserId();
             PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
@@ -31,6 +31,10 @@ namespace CharceApp.Controllers
 
             db.businessaccounts.Add(ba);
             db.SaveChanges();
+
+            return Json("Account Added", JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }

@@ -209,6 +209,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Charce.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -258,11 +259,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ProfilePics\Index.cshtml" />
     <Content Include="Views\ProfilePics\Create.cshtml" />
+    <Content Include="Views\pages\AddAccount.cshtml" />
+    <Content Include="Views\pages\MyAccounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\File\" />
-    <Folder Include="Views\pages\" />
     <Folder Include="Views\ProfilePicFile\" />
     <Folder Include="Views\profiles\" />
   </ItemGroup>
