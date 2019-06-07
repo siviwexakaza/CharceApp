@@ -35,5 +35,6 @@ namespace CharceApp.Models
         public DbSet<File> Files { get; set; }
         public DbSet<FilePath> FilePaths { get; set; }
         public DbSet<ProfilePic> profilepics { get; set; }
+        public DbSet<ActiveProfile> activeprofiles { get; set; }
     }
 }

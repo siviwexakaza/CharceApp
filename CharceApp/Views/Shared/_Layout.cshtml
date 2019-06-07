@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -28,14 +28,37 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
-    <div class="container body-content" style="margin-top:70px">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </div>*@
+
+
+    <header>
+        <nav class="cd-stretchy-nav">
+            <a class="cd-nav-trigger" href="#0">
+                <!--Menu-->
+                <span aria-hidden="true"></span>
+            </a>
+
+            <ul>
+                <li><a href="#0" class="active"><span>Home</span></a></li>
+                <li><a href="#0"><span>Portfolio</span></a></li>
+                <li><a href="#0"><span>Services</span></a></li>
+                <li><a href="#0"><span>Store</span></a></li>
+                <li><a href="#0"><span>Contact</span></a></li>
+            </ul>
+
+            <span aria-hidden="true" class="stretchy-nav-bg"></span>
+        </nav>
+    </header>
+
+    <main class="cd-main-content">
+        <!-- main content here -->
+
+        <div class="container body-content" style="margin-top:70px">
+            @RenderBody()
+            
+            
+        </div>
+    </main>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

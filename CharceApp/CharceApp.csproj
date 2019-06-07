@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\ProfilePicFileController.cs" />
     <Compile Include="Controllers\ProfilePicsController.cs" />
     <Compile Include="Controllers\profilesController.cs" />
@@ -182,7 +183,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ActiveProfile.cs" />
     <Compile Include="Models\BusinessAccount.cs" />
+    <Compile Include="Models\BusinessAccountVM.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FilePath.cs" />
     <Compile Include="Models\FileType.cs" />
@@ -196,7 +199,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\reset.css" />
     <Content Include="Content\semantic.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -211,6 +216,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -256,6 +262,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\File\" />
+    <Folder Include="Views\pages\" />
     <Folder Include="Views\ProfilePicFile\" />
     <Folder Include="Views\profiles\" />
   </ItemGroup>

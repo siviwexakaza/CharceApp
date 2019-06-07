@@ -170,6 +170,11 @@ namespace CharceApp.Controllers
                     db.personalaccounts.Add(personalAcc);
                     db.SaveChanges();
 
+                    ActiveProfile ap = new ActiveProfile() { ApplicationUserId=user.Id,
+                        AccountType ="Personal",ActiveProfileID=personalAcc.ID};
+                    db.activeprofiles.Add(ap);
+                    db.SaveChanges();
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
