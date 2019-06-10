@@ -4,60 +4,86 @@
     ViewBag.Title = "MyAccounts";
 }
 
-<h2>MyAccounts</h2>
+
+<div style="margin-left:1.3rem">
+    <div class="ui card">
+        <div class="content">
+            <div class="center aligned header">@ViewBag.AccountName</div>
+            <div class="center aligned description">
+                <p>@ViewBag.AccountType</p>
+            </div>
+        </div>
+        <div class="extra content">
+            <div class="center aligned author">
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> @ViewBag.AccountName
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PersonalAccountID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BusinessName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BusinessType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Website)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PersonalAccountID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BusinessName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BusinessType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Website)
-        </td>
-       
-    </tr>
-}
 
-</table>
+<div class="ui middle aligned divided list container" style="margin-top:50px">
+    
+    @foreach (var item in Model)
+    {
+        <div class="item">
+            <div class="right floated content">
+                <div class="inline field">
+                    <div class="ui toggle checkbox">
+
+                        @{
+                            if (ViewBag.AccountID == item.ID)
+                            {
+                                <input type="checkbox" checked="checked" tabindex="@item.ID" class="hidden the_check @item.ID" name="@item.ID">
+                            }
+                            else
+                            {
+                                <input type="checkbox" tabindex="@item.ID" class="hidden the_check @item.ID" name="@item.ID">
+                            }
+                        }
+                        
+                        
+                        
+                        
+                        <label></label>
+                    </div>
+                </div>
+                
+            </div>
+            <img class="ui avatar image" src="/images/avatar2/small/molly.png">
+            <div class="content">
+                <a href="#">
+                    @item.BusinessName
+                </a>
+                
+            </div>
+        </div>
+
+    }
+    
+    
+</div>
+
+
+<div class="bottom_menu">
+
+    <div class="ui equal width center aligned padded grid">
+        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+           
+            <div class="column deals-button">
+                <p>
+                    <a href="/pages/addaccount" style="text-decoration:none;color:white">Add Account</a>
+                </p>
+                
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+

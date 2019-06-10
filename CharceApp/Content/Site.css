@@ -9,6 +9,21 @@
     padding-right: 15px;
 }
 
+.bottom_menu{
+    width:100%;
+    bottom:0;
+    left:0;
+    background-color:#192a56;
+    height:4rem;
+    text-align:center;
+    position:fixed;
+}
+
+
+
+.olive{
+    background-color:aqua !important;
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */

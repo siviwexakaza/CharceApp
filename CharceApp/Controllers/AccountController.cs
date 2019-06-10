@@ -162,8 +162,8 @@ namespace CharceApp.Controllers
                         Names = model.Name,
                         Surname = model.Surname,
                         PhoneNumber = model.PhoneNumber,
-                        Province = model.Province,
-                        City = model.City,
+                        Province = "",
+                        City = "",
                         AppUserId = user.Id
                     };
 
