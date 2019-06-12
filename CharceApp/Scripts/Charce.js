@@ -21,7 +21,7 @@
             $.post('/Logic/SwitchAccount?BusinessAccID=' + id + '', null, function () {
                window.location.replace("/pages/myaccounts");
             });
-            console.log(id);
+            
         }
     });
 
@@ -36,11 +36,17 @@
             Email: $("#business_email").val(),
             Website: $("#business_website").val()
         };
-
+        
+        
+        $(this).addClass('disabled');
+        $(this).addClass('loading');
+        
         $.post('/profiles/AddProfile', BusinessAccountVM, function (d) {
             window.location.replace("/pages/myaccounts");
         });
     });
+
+    
     
     
 });

@@ -86,5 +86,41 @@ namespace CharceApp.Controllers
 
             return View(bussiness_accounts);
         }
+
+        [Authorize]
+        public ActionResult ViewAccount(string acc_type,int id)
+        {
+            string myId = User.Identity.GetUserId();
+            PersonalAccount p_acc = db.personalaccounts.ToList()
+                .Where(x => x.AppUserId == myId).FirstOrDefault();
+            if (acc_type == "Business")
+            {
+                BusinessAccount b_acc = db.businessaccounts.ToList()
+                    .Where(x => x.PersonalAccountID == p_acc.ID && x.ID==id).FirstOrDefault();
+
+                ViewBag.AccountType = "Business";
+                ViewBag.BusinessID = b_acc.ID;
+                ViewBag.PersonalID = p_acc.ID;
+                ViewBag.Name = b_acc.BusinessName;
+                ViewBag.Location = b_acc.Location;
+                ViewBag.Phone = b_acc.Phone;
+                ViewBag.Email = b_acc.Email;
+                ViewBag.Website = b_acc.Website;
+
+                return View();
+            }
+            else{
+
+                ViewBag.AccountType = "Personal";
+                ViewBag.PersonalID = p_acc.ID;
+                ViewBag.Name = p_acc.Names + " " + p_acc.Surname;
+                ViewBag.Phone = p_acc.PhoneNumber;
+                ViewBag.Email = User.Identity.GetUserName();
+
+                return View();
+
+            }
+
+        }
     }
 }

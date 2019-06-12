@@ -189,11 +189,15 @@
     <Compile Include="Models\BusinessAccountVM.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FilePath.cs" />
+    <Compile Include="Models\FilePath_Business.cs" />
     <Compile Include="Models\FileType.cs" />
+    <Compile Include="Models\FileType_Business.cs" />
+    <Compile Include="Models\File_Business.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PersonalAccount.cs" />
     <Compile Include="Models\ProfilePic.cs" />
+    <Compile Include="Models\ProfilePic_Business.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -279,6 +283,7 @@
     <Content Include="Views\ProfilePics\Create.cshtml" />
     <Content Include="Views\pages\AddAccount.cshtml" />
     <Content Include="Views\pages\MyAccounts.cshtml" />
+    <Content Include="Views\pages\ViewAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

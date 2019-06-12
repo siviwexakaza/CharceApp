@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "ViewAccount";
+}
+
+
+<div class="ui card" style="margin-left:1.3rem">
+    <div class="image">
+        <img src="/profilepicfile/index?id=@ViewBag.PersonalID">
+    </div>
+    <div class="content">
+        <div class="extra content" >
+            <a>
+                <i class="building icon" style="font-size:1.2rem"></i>
+                
+            </a>
+            <a class="header" style="font-size:1.2rem">@ViewBag.Name</a>
+        </div>
+        <div class="extra content">
+            <a>
+                <i class="phone icon"></i>
+                @ViewBag.Phone
+            </a>
+        </div>
+        <div class="extra content">
+            <a>
+                <i class="at icon"></i>
+                @ViewBag.Email
+            </a>
+        </div>
+
+        
+        <div class="meta">
+            <span class="date">Joined in 2013</span>
+        </div>
+        <div class="description">
+            Kristy is an art director living in New York.
+        </div>
+    </div>
+    <div class="extra content">
+        <a>
+            <i class="user icon"></i>
+            22 Friends
+        </a>
+    </div>
+</div>
+
