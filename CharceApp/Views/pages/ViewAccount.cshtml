@@ -6,7 +6,7 @@
 
 <div class="ui card" style="margin-left:1.3rem">
     <div class="image">
-        <img src="/profilepicfile/index?id=@ViewBag.PersonalID">
+        <img src="/ProfilePicFile/Business_Pic/@ViewBag.BusinessID">
     </div>
     <div class="content">
         <div class="extra content" >
@@ -43,5 +43,31 @@
             22 Friends
         </a>
     </div>
+</div>
+
+
+<div class="bottom_menu">
+
+    <div class="ui equal width center aligned padded grid">
+        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+            <div class="column deals-button">
+                <p>
+                    <a href="/profilepicsbusiness/create?BusinessID=@ViewBag.BusinessID" style="text-decoration:none;color:white">Edit Profile Picture</a>
+                </p>
+
+
+            </div>
+            <div class="column deals-button">
+                <p>
+                    <a href="/pages/addaccount" style="text-decoration:none;color:white">Add Account</a>
+                </p>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
 </div>
 

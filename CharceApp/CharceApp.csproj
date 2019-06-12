@@ -173,6 +173,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\ProfilePicFileController.cs" />
+    <Compile Include="Controllers\ProfilePicsBusinessController.cs" />
     <Compile Include="Controllers\ProfilePicsController.cs" />
     <Compile Include="Controllers\profilesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -284,6 +285,8 @@
     <Content Include="Views\pages\AddAccount.cshtml" />
     <Content Include="Views\pages\MyAccounts.cshtml" />
     <Content Include="Views\pages\ViewAccount.cshtml" />
+    <Content Include="Views\ProfilePicsBusiness\Index.cshtml" />
+    <Content Include="Views\ProfilePicsBusiness\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

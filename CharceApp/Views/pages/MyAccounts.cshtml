@@ -15,7 +15,18 @@
         </div>
         <div class="extra content">
             <div class="center aligned author">
-                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> @ViewBag.AccountName
+                @{
+                    if (ViewBag.isPersonalAccount)
+                    {
+                        <img class="ui avatar image" src="/ProfilePicFile/Index/@ViewBag.AccountID"> @ViewBag.AccountName
+                    }
+                    else
+                    {
+                        <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@ViewBag.AccountID"> @ViewBag.AccountName
+                    }
+                }
+                
+                
             </div>
         </div>
     </div>
@@ -53,7 +64,7 @@
                 </div>
                 
             </div>
-            <img class="ui avatar image" src="/images/avatar2/small/molly.png">
+            <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@item.ID">
             <div class="content">
                 <a href="/pages/viewaccount?acc_type=Business&id=@item.ID">
                     @item.BusinessName

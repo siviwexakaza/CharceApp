@@ -7,7 +7,7 @@ namespace CharceApp.Models
 {
     public class File_Business
     {
-        public int FileId { get; set; }
+        public int File_BusinessId { get; set; }
         public string FileName { get; set; }
         public int BusinessId { get; set; }
         public string ContentType { get; set; }
