@@ -38,6 +38,9 @@ namespace CharceApp.Models
         public DbSet<File_Business> File_Businesses { get; set; }
         public DbSet<FilePath_Business> FilePath_Businesses { get; set; }
         public DbSet<ProfilePic_Business> profilepic_businesses { get; set; }
+        public DbSet<File_Product> File_Products { get; set; }
+        public DbSet<FilePath_Product> FilePath_Products { get; set; }
+        public DbSet<ProfilePic_Product> profilepic_products { get; set; }
         public DbSet<ActiveProfile> activeprofiles { get; set; }
     }
 }
