@@ -292,13 +292,14 @@
     <Content Include="Views\pages\ViewAccount.cshtml" />
     <Content Include="Views\ProfilePicsBusiness\Index.cshtml" />
     <Content Include="Views\ProfilePicsBusiness\Create.cshtml" />
+    <Content Include="Views\ProfilePicsProduct\Index.cshtml" />
+    <Content Include="Views\ProfilePicsProduct\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\File\" />
     <Folder Include="Views\Logic\" />
     <Folder Include="Views\ProfilePicFile\" />
-    <Folder Include="Views\ProfilePicsProduct\" />
     <Folder Include="Views\profiles\" />
   </ItemGroup>
   <ItemGroup>

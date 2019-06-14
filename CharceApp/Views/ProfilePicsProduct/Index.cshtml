@@ -1,0 +1,72 @@
+﻿@model IEnumerable<CharceApp.Models.ProfilePic_Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+
+
+    @foreach (var item in Model)
+    {
+        string comName;
+        using(CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+        {
+            CharceApp.Models.BusinessAccount ba = db.businessaccounts.ToList().Where(x => x.ID == item.BusinessId).FirstOrDefault();
+            comName = ba.BusinessName;
+        }
+        <div class="ui card" style="margin-left:1.3rem">
+            <div class="content">
+                <div class="right floated meta"><button class="positive ui compact labeled icon button">
+    <i class="cart icon"></i>
+    Add
+</button> </div>
+                <img src="/ProfilePicFile/Business_Pic/@item.BusinessId" alt="Avatar" class="ui avatar image" /> <a href="#">@comName</a>
+            </div>
+            <div class="image">
+                <img src="/ProfilePicFile/Product_Pic/@item.BusinessId" alt="Avatar" class="" />
+            </div>
+            <div class="content">
+                <h3 style="font-weight:100">@item.Name</h3>
+                <h4 style="font-weight:100">@item.Description</h4>
+            </div>
+            <div class="content">
+                <span class="right floated">
+                    <i class="th icon"></i>
+                    <a href="#">@item.Item_Type</a>
+                </span>
+
+                <div class="ui labeled button" tabindex="0">
+                    <div class="ui gray button">
+                        <i class="tag icon"></i>
+                    </div>
+                    <a class="ui basic gray left pointing label" style="font-weight:100">
+                        R @item.Price
+                    </a>
+                </div>
+
+
+                @*<i class="comment icon"></i>
+                3 commen*@
+            </div>
+            <div class="extra content">
+                <h6>Tax @item.Tax</h6>
+                @*<div class="ui large transparent left icon input">
+                    <i class="heart outline icon"></i>
+                    <input type="text" placeholder="Add Comment...">
+                </div>*@
+            </div>
+        </div>
+        
+
+
+
+    }
+
+
+
+
+
+

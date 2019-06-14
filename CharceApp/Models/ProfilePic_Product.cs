@@ -12,6 +12,7 @@ namespace CharceApp.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Item_Type { get; set; }
+        public double Discount { get; set; }
         public double Price { get; set; }
         public double Tax { get; set; }
         public virtual ICollection<File_Product> Files_Product { get; set; }
