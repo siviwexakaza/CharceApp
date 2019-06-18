@@ -42,5 +42,6 @@ namespace CharceApp.Models
         public DbSet<FilePath_Product> FilePath_Products { get; set; }
         public DbSet<ProfilePic_Product> profilepic_products { get; set; }
         public DbSet<ActiveProfile> activeprofiles { get; set; }
+        public DbSet<Cart> carts { get; set; }
     }
 }

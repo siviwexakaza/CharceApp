@@ -12,6 +12,63 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [Authorize]
+        public ActionResult ToggleCart(int productId, int businessId)
+        {
+            string myId = User.Identity.GetUserId();
+            PersonalAccount p_acc = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
+            BusinessAccount b_acc = db.businessaccounts.ToList().Where(x => x.ID == businessId).FirstOrDefault();
+            ProfilePic_Product prod = db.profilepic_products.ToList()
+                .Where(x => x.ID == productId && x.BusinessId == businessId).FirstOrDefault();
+            Cart cart = db.carts.ToList()
+                .Where(x => x.PersonalAccountID == p_acc.ID && x.ProfilePicProductID == prod.ID && x.BusinessID==businessId)
+                .FirstOrDefault();
+
+            if (cart == null)
+            {
+                Cart c = new Cart() {
+                    BusinessID=businessId, PersonalAccountID=p_acc.ID,
+                    ProfilePicProductID=prod.ID,Name=prod.Name,
+                    Description=prod.Description,ItemType=prod.Item_Type,
+                    Price=prod.Price,Qty=1
+                };
+                db.carts.Add(c);
+                db.SaveChanges();
+
+            }
+            else
+            {
+                db.carts.Remove(cart);
+                db.SaveChanges();
+            }
+
+            return Redirect(Request.UrlReferrer.ToString());
+
+
+
+        }
+
+        [Authorize]
+        public ActionResult IncreaseQty(int cartId)
+        {
+            Cart c = db.carts.ToList().Where(x => x.ID == cartId).FirstOrDefault();
+            c.Qty++;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+
+        }
+
+        [Authorize]
+        public ActionResult DecreaseQty(int cartId)
+        {
+            Cart c = db.carts.ToList().Where(x => x.ID == cartId).FirstOrDefault();
+            c.Qty--;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+
+        }
+
         [Authorize]
         public void SwitchAccount(int BusinessAccID)
         {

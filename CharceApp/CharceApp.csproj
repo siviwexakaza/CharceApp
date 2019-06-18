@@ -189,6 +189,7 @@
     <Compile Include="Models\ActiveProfile.cs" />
     <Compile Include="Models\BusinessAccount.cs" />
     <Compile Include="Models\BusinessAccountVM.cs" />
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FilePath.cs" />
     <Compile Include="Models\FilePath_Business.cs" />
@@ -294,6 +295,8 @@
     <Content Include="Views\ProfilePicsBusiness\Create.cshtml" />
     <Content Include="Views\ProfilePicsProduct\Index.cshtml" />
     <Content Include="Views\ProfilePicsProduct\Create.cshtml" />
+    <Content Include="Views\ProfilePicsProduct\CompanyProducts.cshtml" />
+    <Content Include="Views\pages\CheckoutView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<CharceApp.Models.ProfilePic_Product>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Company Products";
 }
+
 
 @{
 
@@ -28,7 +28,7 @@
                 <div class="right floated meta">
 
                     @{
-                        
+
                         if (prods.Contains(item.ID))
                         {
                             <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="negative ui compact labeled icon button">
@@ -47,7 +47,7 @@
 
                     }
 
-                    
+
                 </div>
                 <img src="/ProfilePicFile/Business_Pic/@item.BusinessId" alt="Avatar" class="ui avatar image" /> <a href="#">@comName</a>
             </div>
@@ -89,9 +89,10 @@
 
 
 
-    }
+                        }
 
 }
+
 
 
 <div class="bottom_menu">
@@ -112,11 +113,6 @@
     </div>
 
 </div>
-
-
-
-
-
 
 
 

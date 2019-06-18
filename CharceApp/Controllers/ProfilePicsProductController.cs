@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CharceApp.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CharceApp.Controllers
 {
@@ -12,13 +13,25 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
-            return View(db.profilepic_products.ToList().OrderByDescending(p => p.ID));
+
+            string myid = User.Identity.GetUserId();
+            PersonalAccount p = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
+            int items = db.carts.ToList().Where(x => x.PersonalAccountID == p.ID).ToList().Count();
+            ViewBag.Items = items;
+            ViewBag.MyID = p.ID;
+            return View(db.profilepic_products.ToList().OrderByDescending(x => x.ID));
         }
 
+        [Authorize]
         public ActionResult CompanyProducts(int id)
         {
+            string myid = User.Identity.GetUserId();
+            PersonalAccount p = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
+            int items = db.carts.ToList().Where(x => x.PersonalAccountID == p.ID).ToList().Count();
+            ViewBag.Items = items;
+            ViewBag.MyID = p.ID;
             return View(db.profilepic_products.ToList()
-                .Where(x=>x.BusinessId == id).OrderByDescending(p => p.ID));
+                .Where(x=>x.BusinessId == id).OrderByDescending(x => x.ID));
         }
 
 

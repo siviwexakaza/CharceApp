@@ -88,6 +88,24 @@ namespace CharceApp.Controllers
         }
 
         [Authorize]
+        public ActionResult CheckoutView()
+        {
+            string myId = User.Identity.GetUserId();
+            PersonalAccount p_acc = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
+            List<Cart> carts = db.carts.ToList().Where(x => x.PersonalAccountID == p_acc.ID).ToList();
+            double balance = 0;
+            foreach (Cart c in carts)
+            {
+                double price = c.Price * c.Qty;
+                
+                balance += price;
+            }
+
+            ViewBag.Balance = balance;
+            return View(carts);
+        }
+
+        [Authorize]
         public ActionResult ViewAccount(string acc_type,int id)
         {
             string myId = User.Identity.GetUserId();
