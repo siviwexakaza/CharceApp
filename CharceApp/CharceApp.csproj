@@ -190,6 +190,7 @@
     <Compile Include="Models\BusinessAccount.cs" />
     <Compile Include="Models\BusinessAccountVM.cs" />
     <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\Conversation.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FilePath.cs" />
     <Compile Include="Models\FilePath_Business.cs" />
@@ -201,6 +202,8 @@
     <Compile Include="Models\File_Product.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\NewMessageNotification.cs" />
     <Compile Include="Models\PersonalAccount.cs" />
     <Compile Include="Models\ProfilePic.cs" />
     <Compile Include="Models\ProfilePic_Business.cs" />
@@ -297,6 +300,7 @@
     <Content Include="Views\ProfilePicsProduct\Create.cshtml" />
     <Content Include="Views\ProfilePicsProduct\CompanyProducts.cshtml" />
     <Content Include="Views\pages\CheckoutView.cshtml" />
+    <Content Include="Views\pages\Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

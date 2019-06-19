@@ -11,7 +11,64 @@ namespace CharceApp.Controllers
     public class pagesController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
-        
+
+        [Authorize]
+        public ActionResult Message(int convoID, int pageNo)//List of messages within a conversation (accessed from Inbox page)
+        {
+            Conversation convo = db.conversations.ToList().Where(x => x.ID == convoID).FirstOrDefault();
+            int page = pageNo;
+            int next = page + 15;
+            ViewBag.NextPosts = next;
+            //string myUsername = User.Identity.GetUserName();
+            string myId = User.Identity.GetUserId();
+            ActiveProfile active = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myId).FirstOrDefault();
+            ViewBag.MyId = active.ActiveProfileID;
+            ViewBag.ConvoID = convo.ID;
+            int recieverid;
+
+            if (convo.FirstPersonID == active.ActiveProfileID)
+            {
+                recieverid = convo.SecondPersonID;
+            }
+            else
+            {
+                recieverid = convo.FirstPersonID;
+            }
+            ViewBag.RecieverID = recieverid;
+
+            if (convo != null && (convo.FirstPersonID == active.ActiveProfileID || convo.SecondPersonID == active.ActiveProfileID))
+            {
+                List<Message> messages = db.messages.ToList().Where(x => x.ConversationID == convo.ID).ToList();
+
+                if (convo.LastSenderID != active.ActiveProfileID)
+                {
+                    convo.Seen = true;
+                    db.SaveChanges();
+
+                }
+                if (messages.Last().SenderID != active.ActiveProfileID && messages.Last().Seen == false)
+                {
+                    messages.Last().Seen = true;
+                    db.SaveChanges();
+                }
+
+                return View(messages.OrderByDescending(x => x.ID).Skip(page).Take(15));
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+        }
+
+
+
+
+
+
         [Authorize]
         public ActionResult AddAccount()
         {

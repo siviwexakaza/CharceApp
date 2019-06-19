@@ -1,10 +1,14 @@
-﻿
+﻿@model IEnumerable<CharceApp.Models.Message>
+
 <div class="chats" style="margin-bottom:100px">
 
     <div class="ui fluid icon input" style="margin-bottom:20px">
         <input type="text" placeholder="Search...">
         <i class="search icon"></i>
     </div>
+
+    <h4 style="text-align:center;font-weight:100;color:gray">@ViewBag.AccountName</h4>
+    <h6 style="text-align:center;font-weight:100;color:gray">@ViewBag.AccountType Account</h6>
 
     <div class="ui comments">
         <div class="comment" style="margin-bottom:20px">

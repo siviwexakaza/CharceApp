@@ -12,6 +12,183 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize]
+        public ActionResult SendMessage(int RecieverID, string txt)
+        {
+            string myUsername = User.Identity.GetUserName();
+            string myId = User.Identity.GetUserId();
+            PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
+            ActiveProfile active_profile = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myId).FirstOrDefault();
+            int active_id = active_profile.ActiveProfileID;
+
+            Conversation convo = db.conversations.ToList().
+                Where(x => (x.FirstPersonID == active_id || x.SecondPersonID == active_id) && (x.FirstPersonID == RecieverID || x.SecondPersonID == RecieverID))
+                .FirstOrDefault();
+
+            if (active_profile.AccountType == "Business") //meaning i am the business
+            {
+                BusinessAccount ba = db.businessaccounts.ToList()
+                    .Where(x => x.PersonalAccountID == pa.ID && x.ID == active_profile.ActiveProfileID)
+                    .FirstOrDefault();
+
+                //If i am the business, then the other person must be the client/customer....
+                PersonalAccount customer = db.personalaccounts.ToList()
+                    .Where(x => x.ID == RecieverID).FirstOrDefault(); 
+                //              ^^^^^^Customer^^^^^
+                
+                if (convo == null) //first time message
+                {
+                    Conversation conversation = new Conversation()
+                    {
+                        Date = DateTime.Now,
+                        FirstPersonDispName = ba.BusinessName,
+                        FirstPersonID = ba.ID,
+                        SecondPersonDispName = customer.Names +" "+customer.Surname,
+                        SecondPersonID = customer.ID,
+                        LastMessage = txt,
+                        LastSenderID = ba.ID,
+                        Seen = false
+                    };
+                    db.conversations.Add(conversation);
+                    db.SaveChanges();
+
+                    Message msg = new Message()
+                    {
+                        Date = DateTime.Now,
+                        ConversationID = conversation.ID,
+                        SenderDispName = ba.BusinessName,
+                        SenderID = ba.ID,
+                        Seen = false,
+                        Text = txt
+                    };
+                    db.messages.Add(msg);
+                    db.SaveChanges();
+
+                    NewMessageNotification nmn = new NewMessageNotification()
+                    {
+                        RecieverID = RecieverID
+                    };
+                    db.newmessagenotifications.Add(nmn);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Message", "pages", new { pageNo = 0, convoID = conversation.ID });
+                }
+                else //meaning this is not the first text
+                {
+                    
+
+
+                    Message msg = new Message()
+                    {
+                        Date = DateTime.Now,
+                        ConversationID = convo.ID,
+                        SenderDispName = ba.BusinessName,
+                        SenderID = ba.ID,
+                        Seen = false,
+                        Text = txt
+                    };
+                    db.messages.Add(msg);
+                    db.SaveChanges();
+
+                    NewMessageNotification nmn = new NewMessageNotification()
+                    {
+                        RecieverID = RecieverID
+                    };
+                    db.newmessagenotifications.Add(nmn);
+                    db.SaveChanges();
+
+                    convo.LastSenderID = active_id;
+                    convo.LastMessage = txt;
+                    convo.Date = DateTime.Now;
+                    convo.Seen = false;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Message", "pages", new { pageNo = 0, convoID = convo.ID });
+                }
+
+            }
+            else // I am the customer (object pa ^^^^), sending a message to the business
+            {
+
+                BusinessAccount company = db.businessaccounts.ToList()
+                    .Where(x => x.ID == RecieverID).FirstOrDefault();
+
+
+                if (convo == null) //first time message
+                {
+                    Conversation conversation = new Conversation()
+                    {
+                        Date = DateTime.Now,
+                        FirstPersonDispName = pa.Names+" "+pa.Surname,
+                        FirstPersonID = pa.ID,
+                        SecondPersonDispName = company.BusinessName,
+                        SecondPersonID = company.ID,
+                        LastMessage = txt,
+                        LastSenderID = pa.ID,
+                        Seen = false
+                    };
+                    db.conversations.Add(conversation);
+                    db.SaveChanges();
+
+                    Message msg = new Message()
+                    {
+                        Date = DateTime.Now,
+                        ConversationID = conversation.ID,
+                        SenderDispName = pa.Names + " " + pa.Surname,
+                        SenderID = pa.ID,
+                        Seen = false,
+                        Text = txt
+                    };
+                    db.messages.Add(msg);
+                    db.SaveChanges();
+
+                    NewMessageNotification nmn = new NewMessageNotification()
+                    {
+                        RecieverID = RecieverID
+                    };
+                    db.newmessagenotifications.Add(nmn);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Message", "pages", new { pageNo = 0, convoID = conversation.ID });
+                }
+                else //meaning this is not the first text
+                {
+
+
+
+                    Message msg = new Message()
+                    {
+                        Date = DateTime.Now,
+                        ConversationID = convo.ID,
+                        SenderDispName = pa.Names + " " + pa.Surname,
+                        SenderID = pa.ID,
+                        Seen = false,
+                        Text = txt
+                    };
+                    db.messages.Add(msg);
+                    db.SaveChanges();
+
+                    NewMessageNotification nmn = new NewMessageNotification()
+                    {
+                        RecieverID = RecieverID
+                    };
+                    db.newmessagenotifications.Add(nmn);
+                    db.SaveChanges();
+
+                    convo.LastSenderID = active_id;
+                    convo.LastMessage = txt;
+                    convo.Date = DateTime.Now;
+                    convo.Seen = false;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Message", "pages", new { pageNo = 0, convoID = convo.ID });
+                }
+
+            }
+
+        }
+
 
         [Authorize]
         public ActionResult ToggleCart(int productId, int businessId)

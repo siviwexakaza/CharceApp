@@ -12,6 +12,12 @@
 
     @foreach (var item in Model)
     {
+        string business;
+        using(CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+        {
+            CharceApp.Models.BusinessAccount b = db.businessaccounts.ToList().Where(x => x.ID == item.BusinessID).FirstOrDefault();
+            business = b.BusinessName;
+        }
 
         <div class="comment">
             <a class="avatar">
@@ -20,7 +26,7 @@
             <div class="content">
                 <a class="author">@item.Name (@item.Qty)</a>
                 <div class="text">
-                    R @item.Price
+                    R @item.Price | <a href="#">@business</a>
                 </div>
                 <div class="actions">
                     @*<a class="reply">Reply</a>

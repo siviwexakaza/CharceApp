@@ -68,7 +68,13 @@ namespace CharceApp.Controllers
             ViewBag.AccountName = account_name;
             ViewBag.AccountID = account_id;
             ViewBag.AccountType = account_type;
-            return View();
+
+
+            List<Conversation> conversations = db.conversations.ToList()
+                .Where(x => x.FirstPersonID == account_id || x.SecondPersonID == account_id).ToList();
+
+
+            return View(conversations);
         }
 
         public ActionResult About()

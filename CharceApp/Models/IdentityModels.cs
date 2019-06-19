@@ -43,5 +43,8 @@ namespace CharceApp.Models
         public DbSet<ProfilePic_Product> profilepic_products { get; set; }
         public DbSet<ActiveProfile> activeprofiles { get; set; }
         public DbSet<Cart> carts { get; set; }
+        public DbSet<Conversation> conversations { get; set; }
+        public DbSet<Message> messages { get; set; }
+        public DbSet<NewMessageNotification> newmessagenotifications { get; set; }
     }
 }
