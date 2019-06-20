@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "OpenMessage";
+}
+
+<div class="container">
+
+    <div style="margin-top:150px">
+
+        <h6 style="text-align:center;font-weight:100">New message to @ViewBag.RecieverDisplayName</h6>
+        <br />
+
+        <form action="/logic/SendMessage?RecieverID=@ViewBag.RecieverID" method="post" id="new_messageForm">
+
+            <div class="input-field col s12">
+                <textarea id="txt" name="txt" class="materialize-textarea"></textarea>
+                <label for="txt">Type a new message...</label>
+                <br />
+
+                <input type="submit" class="btn waves-effect waves-light btn-small" style="margin-top:10px" value="send" />
+
+            </div>
+
+        </form>
+
+
+    </div>
+
+</div>
+

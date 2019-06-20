@@ -4,53 +4,74 @@
     ViewBag.Title = "Message";
 }
 
-<h2>Message</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConversationID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SenderID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SenderDispName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Seen)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Text)
-        </th>
-        <th></th>
-    </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConversationID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SenderID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SenderDispName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Seen)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
-        </td>
-       
-    </tr>
+
+
+    if (item.SenderID == ViewBag.MyId)
+    {
+        <div class="msg">
+            <div class="bubble alt">
+                <div class="txt">
+                    <span class="name alt">
+                        @item.SenderDispName
+                    </span>
+                    <span class="timestamp">10:22 pm</span>
+                    <p class="message">@item.Text</p>
+                </div>
+                <div class="bubble-arrow alt"></div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="msg">
+            <div class="bubble">
+                <div class="txt">
+                    <span class="name">@item.SenderDispName</span>
+                    <span class="timestamp">10:20 pm</span>
+                    <span class="message">
+                        @item.Text
+                    </span>
+
+                </div>
+                <div class="bubble-arrow"></div>
+            </div>
+        </div>
+
+    }
 }
 
-</table>
+
+
+
+
+
+
+
+
+
+
+<div style="bottom:0;left:10px;position:fixed;width:100%">
+    <form action="/logic/sendmessage">
+        <div class="ui form">
+
+            <div class="field">
+                <h3 style="font-weight:100;color:gray">Reply</h3>
+                
+                <textarea rows="1" name="txt"></textarea>
+                <button class="ui compact icon button">
+                    <i class="right arrow icon"></i>
+                </button>
+            </div>
+        </div>
+        <input type="text" value="@ViewBag.RecieverID" name="RecieverID" style="visibility:hidden" />
+
+    </form>
+
+</div>
+
+
+

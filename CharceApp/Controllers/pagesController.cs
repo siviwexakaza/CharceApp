@@ -12,9 +12,44 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [Authorize]
+        public ActionResult OpenMessage(int RecieverID)//Accessed from profile
+        {
+
+            //If a conversation between the both of us exists, redirect me to Message( ), else show me a textbox that will call SendMessage( )
+            string myUsername = User.Identity.GetUserName();
+            string myId = User.Identity.GetUserId();
+
+            ActiveProfile active = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myId).FirstOrDefault();
+
+            BusinessAccount ba = db.businessaccounts.ToList()
+                .Where(x => x.ID == RecieverID).FirstOrDefault();
+            PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
+
+            ViewBag.MyID = active.ActiveProfileID;
+            ViewBag.RecieverID = RecieverID;
+            ViewBag.RecieverDisplayName = ba.BusinessName;
+            Conversation convo = db.conversations.ToList().
+                Where(x => (x.FirstPersonID == pa.ID || x.SecondPersonID == pa.ID) && (x.FirstPersonID == RecieverID || x.SecondPersonID == RecieverID))
+                .FirstOrDefault();
+            if (convo != null)
+            {
+                return RedirectToAction("Message", "pages", new { pageNo = 0, convoID = convo.ID });
+            }
+            else
+            {
+                return View(); //For creating the very first text or conversation, form must call SendMessage( )
+            }
+
+        }
+
+
         [Authorize]
         public ActionResult Message(int convoID, int pageNo)//List of messages within a conversation (accessed from Inbox page)
         {
+            
             Conversation convo = db.conversations.ToList().Where(x => x.ID == convoID).FirstOrDefault();
             int page = pageNo;
             int next = page + 15;
@@ -53,7 +88,7 @@ namespace CharceApp.Controllers
                     db.SaveChanges();
                 }
 
-                return View(messages.OrderByDescending(x => x.ID).Skip(page).Take(15));
+                return View(messages.Skip(page).Take(15));
 
             }
             else
@@ -74,7 +109,6 @@ namespace CharceApp.Controllers
         {
             return View();
         }
-
        
         [Authorize]
         public ActionResult MyAccounts()
