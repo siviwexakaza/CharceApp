@@ -3,7 +3,7 @@
     ViewBag.Title = "OpenMessage";
 }
 
-<div class="container">
+@*<div class="container">
 
     <div style="margin-top:150px">
 
@@ -26,5 +26,33 @@
 
     </div>
 
+</div>*@
+
+
+
+
+
+
+<div style="bottom:0;left:10px;position:fixed;width:100%">
+    <form action="/logic/sendmessage">
+        <div class="ui form">
+
+            <div class="field">
+                <h3 style="font-weight:100;color:gray">New Message</h3>
+
+                <textarea rows="1" name="txt"></textarea>
+                <button class="ui compact icon button">
+                    <i class="right arrow icon"></i>
+                </button>
+            </div>
+        </div>
+        <input type="text" value="@ViewBag.RecieverID" name="RecieverID" style="visibility:hidden" />
+        <input type="text" value="0" name="orderid" style="visibility:hidden" />
+
+    </form>
+
 </div>
+
+
+
 

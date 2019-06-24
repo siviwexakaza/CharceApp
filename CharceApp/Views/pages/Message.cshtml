@@ -4,12 +4,14 @@
     ViewBag.Title = "Message";
 }
 
+<div style="margin-bottom:150px">
+
 
 
 @foreach (var item in Model) {
 
 
-    if (item.SenderID == ViewBag.MyId)
+    if (item.SenderID == ViewBag.MyId && item.isOrder !=true)
     {
         <div class="msg">
             <div class="bubble alt">
@@ -23,6 +25,58 @@
                 <div class="bubble-arrow alt"></div>
             </div>
         </div>
+
+    }
+    else if (item.isOrder == true)
+    {
+        using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+        {
+            CharceApp.Models.Order order = db.orders.ToList().Where(x => x.ID == item.OrderID).FirstOrDefault();
+            
+            
+
+                <div class="ui divided items">
+                    <div class="item">
+                        <div class="image">
+
+                            <img src="/profilepicfile/ProductPic/@order.ProductID">
+                        </div>
+                        <div class="content">
+                            <a href="/pages/vieworder/@order.ID" class="header">@item.SenderDispName placed an order</a>
+                            <div class="meta">
+                                <span class="cinema">@order.Product | Qty: @order.Qauntity</span>
+                            </div>
+                            <div class="description">
+                                <p>@order.DeliverOrCollect (@order.PaymentMethod)</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui label"><i class="tag icon"></i> R @order.Total</div>
+                                <div class="ui label"><i class="clock icon"></i> @order.Date.Day - @order.Date.Month - @order.Date.Year</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+        }
+
+
+
+
+        @*<div class="msg">
+            <div class="bubble">
+                <div class="txt">
+                    <span class="name">@item.SenderDispName</span>
+                    <span class="timestamp">10:20 pm</span>
+                    <span class="message">
+                        @item.Text | Order
+                    </span>
+
+                </div>
+                <div class="bubble-arrow"></div>
+            </div>
+        </div>*@
 
     }
     else
@@ -43,6 +97,7 @@
 
     }
 }
+    </div>
 
 
 
@@ -58,9 +113,11 @@
     <form action="/logic/sendmessage">
         <div class="ui form">
 
+            <div class="ui label" style="margin-bottom:10px"><i class="envelope icon"></i>Reply</div>
+            
+
             <div class="field">
-                <h3 style="font-weight:100;color:gray">Reply</h3>
-                
+               
                 <textarea rows="1" name="txt"></textarea>
                 <button class="ui compact icon button">
                     <i class="right arrow icon"></i>
@@ -68,6 +125,7 @@
             </div>
         </div>
         <input type="text" value="@ViewBag.RecieverID" name="RecieverID" style="visibility:hidden" />
+        <input type="text" value="0" name="orderid" style="visibility:hidden" />
 
     </form>
 

@@ -46,5 +46,9 @@ namespace CharceApp.Models
         public DbSet<Conversation> conversations { get; set; }
         public DbSet<Message> messages { get; set; }
         public DbSet<NewMessageNotification> newmessagenotifications { get; set; }
+        public DbSet<Order> orders { get; set; }
+        public DbSet<ListOrder> listorders { get; set; }
+        public DbSet<ProductListOrder> productlistorders { get; set; }
+
     }
 }

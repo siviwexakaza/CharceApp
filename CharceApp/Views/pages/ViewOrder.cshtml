@@ -1,0 +1,61 @@
+﻿@model CharceApp.Models.Order
+
+@using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+{
+    CharceApp.Models.PersonalAccount personal = db.personalaccounts.ToList()
+        .Where(x => x.ID == Model.PersonalAccID).FirstOrDefault();
+    <p style="text-align:center;margin-top:50px">You have recieved an order from @personal.Names @personal.Surname . The order is as follows:</p>
+}
+
+<h5>Order #@Model.ID (@Model.Date.Day/@Model.Date.Month/@Model.Date.Year)</h5>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Product</td>
+            <td>@Model.Qauntity</td>
+            <td>@Model.Price</td>
+        </tr>
+     
+    </tbody>
+
+    <tbody>
+        <tr>
+            <td style="font-weight:700">Total:</td>
+            <td></td>
+            <td>@Model.Total</td>
+            
+        </tr>
+
+    </tbody>
+
+    <thead>
+        <tr>
+            <th>Payment Method</th>
+            <th>Deliver/Collect</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>@Model.PaymentMethod</td>
+            <td>@Model.DeliverOrCollect</td>
+            
+        </tr>
+
+    </tbody>
+
+    
+</table>
+
+<h5>Billing address</h5>
+<br />
+<h6>@Model.BillingAddress</h6>

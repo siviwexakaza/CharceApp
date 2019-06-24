@@ -34,6 +34,14 @@ namespace CharceApp.Controllers
 
         }
 
+        public ActionResult ProductPic(int id)
+        {
+            // var pic = db.File_Businesses.FirstOrDefault(x => x.ProfilePic_BusinessID == id);
+            var pic = db.File_Products.ToList().Where(x => x.ProfilePic_ProductID == id).FirstOrDefault();
+            return File(pic.Content, pic.ContentType);
+
+        }
+
         public ActionResult OpenPersonalPic(string app_user_id)
         {
             PersonalAccount p_acc = db.personalaccounts.ToList().Where(x => x.AppUserId == app_user_id).FirstOrDefault();

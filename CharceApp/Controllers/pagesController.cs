@@ -12,6 +12,14 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize]
+        public ActionResult ViewOrder(int id)
+        {
+            Order orders = db.orders.ToList().Where(x => x.ID == id).FirstOrDefault();
+
+            return View(orders);
+        }
+
 
         [Authorize]
         public ActionResult OpenMessage(int RecieverID)//Accessed from profile

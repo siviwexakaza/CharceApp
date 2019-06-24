@@ -74,7 +74,7 @@ namespace CharceApp.Controllers
                 .Where(x => x.FirstPersonID == account_id || x.SecondPersonID == account_id).ToList();
 
 
-            return View(conversations);
+            return View(conversations.OrderByDescending(x=>x.Date));
         }
 
         public ActionResult About()

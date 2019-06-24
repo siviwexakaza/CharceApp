@@ -14,5 +14,7 @@ namespace CharceApp.Models
         public string SenderDispName { get; set; }
         public bool Seen { get; set; }
         public string Text { get; set; }
+        public bool isOrder { get; set; }
+        public int OrderID { get; set; }
     }
 }

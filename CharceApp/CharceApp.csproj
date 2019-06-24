@@ -201,10 +201,13 @@
     <Compile Include="Models\File_Business.cs" />
     <Compile Include="Models\File_Product.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ListOrder.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\NewMessageNotification.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PersonalAccount.cs" />
+    <Compile Include="Models\ProductListOrder.cs" />
     <Compile Include="Models\ProfilePic.cs" />
     <Compile Include="Models\ProfilePic_Business.cs" />
     <Compile Include="Models\ProfilePic_Product.cs" />
@@ -302,6 +305,7 @@
     <Content Include="Views\pages\CheckoutView.cshtml" />
     <Content Include="Views\pages\Message.cshtml" />
     <Content Include="Views\pages\OpenMessage.cshtml" />
+    <Content Include="Views\pages\ViewOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
