@@ -22,6 +22,35 @@ namespace CharceApp.Controllers
 
 
         [Authorize]
+        public ActionResult BulkOrder(int business_id, int personal_id)
+        {
+            ListOrder listorder = db.listorders.ToList()
+                .Where(x => x.BusinessID == business_id && x.PersonalAccID == personal_id)
+                .FirstOrDefault();
+            List<ProductListOrder> productorder = db.productlistorders.ToList()
+                .Where(x => x.ListOrderID == listorder.ID).ToList();
+
+            List<Order> orders = new List<Order>();
+            double total=0;
+
+            foreach(ProductListOrder p in productorder)
+            {
+                Order order = db.orders.ToList().Where(x => x.ID == p.OrderID).FirstOrDefault();
+                if(order != null)
+                {
+                    orders.Add(order);
+                    total += order.Price * order.Qauntity;
+                }
+            }
+            ViewBag.OrderID = listorder.ID;
+            ViewBag.Status = listorder.Status;
+            ViewBag.Total = total;
+
+            return View(orders);
+        }
+
+
+        [Authorize]
         public ActionResult OpenMessage(int RecieverID)//Accessed from profile
         {
 
@@ -69,6 +98,19 @@ namespace CharceApp.Controllers
             ViewBag.MyId = active.ActiveProfileID;
             ViewBag.ConvoID = convo.ID;
             int recieverid;
+            bool im_business;
+
+            if (active.AccountType == "Business")
+            {
+                im_business = true;
+            }
+            else
+            {
+                im_business = false;
+            }
+
+            ViewBag.isBusiness = im_business;
+            
 
             if (convo.FirstPersonID == active.ActiveProfileID)
             {
@@ -90,11 +132,11 @@ namespace CharceApp.Controllers
                     db.SaveChanges();
 
                 }
-                if (messages.Last().SenderID != active.ActiveProfileID && messages.Last().Seen == false)
-                {
-                    messages.Last().Seen = true;
-                    db.SaveChanges();
-                }
+                //if (messages.Last().SenderID != active.ActiveProfileID && messages.Last().Seen == false)
+                //{
+                //    messages.Last().Seen = true;
+                //    db.SaveChanges();
+                //}
 
                 return View(messages.Skip(page).Take(15));
 

@@ -29,12 +29,40 @@
     }
     else if (item.isOrder == true)
     {
-        using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+        
+        if (ViewBag.isBusiness)
+        {
+            <a href="/pages/BulkOrder?business_id=@ViewBag.MyId&personal_id=@ViewBag.RecieverID">
+                <div class="ui segment" style="margin-top:10px">
+                    @*<a class="ui orange left ribbon label">Specs</a>
+                        <p></p>*@
+                    <span class="ui teal left ribbon label"><i class="tag icon"></i> New Order</span>
+                    <h3 style="font-weight:400">Open Orders</h3>
+                </div>
+
+            </a>
+
+        }
+        else
+        {
+            <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.MyId">
+                <div class="ui segment" style="margin-top:10px">
+                    @*<a class="ui orange left ribbon label">Specs</a>
+                        <p></p>*@
+                    <span class="ui teal left ribbon label"><i class="tag icon"></i> New Order</span>
+                    <h3 style="font-weight:400">@item.SenderDispName placed a new order!</h3>
+                </div>
+
+            </a>
+
+        }
+
+
+
+        @*using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
         {
             CharceApp.Models.Order order = db.orders.ToList().Where(x => x.ID == item.OrderID).FirstOrDefault();
             
-            
-
                 <div class="ui divided items">
                     <div class="item">
                         <div class="image">
@@ -55,11 +83,9 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
-        }
+        }*@
 
 
 

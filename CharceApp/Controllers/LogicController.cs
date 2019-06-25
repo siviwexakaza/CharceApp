@@ -13,6 +13,17 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
+        public ActionResult ChangeOrderStatus(int listorderid, string newstatus)
+        {
+            ListOrder order = db.listorders.ToList().Where(x => x.ID == listorderid).FirstOrDefault();
+            order.Status = newstatus;
+            db.SaveChanges();
+
+            return Redirect(Request.UrlReferrer.ToString());
+
+        }
+
+        [Authorize]
         public ActionResult SendMessage(int RecieverID, string txt, int orderid)
         {
             string myUsername = User.Identity.GetUserName();
@@ -283,6 +294,9 @@ namespace CharceApp.Controllers
 
             List<Cart> carts = db.carts.ToList()
                 .Where(x => x.PersonalAccountID == active_profile.ActiveProfileID).ToList();
+
+            List<int> businessids = new List<int>();
+
             foreach(Cart c in carts)
             {
                 Order order = new Order() {
@@ -293,11 +307,16 @@ namespace CharceApp.Controllers
                     Total=c.Price * c.Qty
                 };
 
+                if (!businessids.Contains(c.BusinessID))
+                {
+                    businessids.Add(c.BusinessID);
+                }
+
                 db.orders.Add(order);
                 db.SaveChanges();
 
                 ListOrder list = db.listorders.ToList()
-                    .Where(x => x.BusinessID == order.BusinessID && x.PersonalAccID == order.PersonalAccID && x.Status=="Pending")
+                    .Where(x => x.BusinessID == order.BusinessID && x.PersonalAccID == order.PersonalAccID)
                     .FirstOrDefault();
                 if(list == null)
                 {
@@ -318,6 +337,7 @@ namespace CharceApp.Controllers
 
                     db.productlistorders.Add(pro);
                     db.SaveChanges();
+                    SendOrder(c.BusinessID, "New Order", order.ID,l.ID);
                 }
                 else
                 {
@@ -330,56 +350,47 @@ namespace CharceApp.Controllers
                     db.productlistorders.Add(pro);
                     db.SaveChanges();
 
-                }
-                
+                    SendOrder(c.BusinessID, "New Order", order.ID, list.ID);
 
-                SendOrderMessage(c.BusinessID, "New Order", order.ID);
+                }
+
+                
+                
             }
+            SendOrderMessage(businessids);
 
             return RedirectToAction("Index", "Home");
 
         }
 
-        
-
-
         [Authorize]
-        public void SendOrderMessage(int RecieverID, string txt, int orderid)
+        public void SendOrderMessage(List<int> businessids)
         {
-            string myUsername = User.Identity.GetUserName();
             string myId = User.Identity.GetUserId();
-            PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
-            ActiveProfile active_profile = db.activeprofiles.ToList()
-                .Where(x => x.ApplicationUserId == myId).FirstOrDefault();
-            int active_id = active_profile.ActiveProfileID;
+            PersonalAccount pa = db.personalaccounts.ToList()
+                .Where(x => x.AppUserId == myId).FirstOrDefault();
 
-            Conversation convo = db.conversations.ToList().
-                Where(x => (x.FirstPersonID == active_id || x.SecondPersonID == active_id) && (x.FirstPersonID == RecieverID || x.SecondPersonID == RecieverID))
+            foreach(int id in businessids)
+            {
+                Conversation convo = db.conversations.ToList().
+                Where(x => (x.FirstPersonID == pa.ID || x.SecondPersonID == pa.ID) && (x.FirstPersonID == id || x.SecondPersonID == id))
                 .FirstOrDefault();
 
-            if (active_profile.AccountType == "Business") //meaning i am the business
-            {
-                BusinessAccount ba = db.businessaccounts.ToList()
-                    .Where(x => x.PersonalAccountID == pa.ID && x.ID == active_profile.ActiveProfileID)
-                    .FirstOrDefault();
-
-                //If i am the business, then the other person must be the client/customer....
-                PersonalAccount customer = db.personalaccounts.ToList()
-                    .Where(x => x.ID == RecieverID).FirstOrDefault();
-                //              ^^^^^^Customer^^^^^
-
-                if (convo == null) //first time message
+                if (convo == null)
                 {
+                    BusinessAccount b = db.businessaccounts.ToList().Where(x => x.ID == id).FirstOrDefault();
+
                     Conversation conversation = new Conversation()
                     {
                         Date = DateTime.Now,
-                        FirstPersonDispName = ba.BusinessName,
-                        FirstPersonID = ba.ID,
-                        SecondPersonDispName = customer.Names + " " + customer.Surname,
-                        SecondPersonID = customer.ID,
-                        LastMessage = txt,
-                        LastSenderID = ba.ID,
+                        FirstPersonDispName = pa.Names + " " + pa.Surname,
+                        FirstPersonID = pa.ID,
+                        SecondPersonDispName = b.BusinessName,
+                        SecondPersonID = b.ID,
+                        LastMessage = pa.Names + " " + pa.Surname + " " + "placed an order",
+                        LastSenderID = pa.ID,
                         Seen = false
+
                     };
                     db.conversations.Add(conversation);
                     db.SaveChanges();
@@ -388,11 +399,11 @@ namespace CharceApp.Controllers
                     {
                         Date = DateTime.Now,
                         ConversationID = conversation.ID,
-                        SenderDispName = ba.BusinessName,
-                        SenderID = ba.ID,
+                        SenderDispName = pa.Names + " " + pa.Surname,
+                        SenderID = pa.ID,
                         Seen = false,
-                        Text = txt,
-                        isOrder = false,
+                        Text = conversation.LastMessage,
+                        isOrder = true,
                         OrderID = 0
                     };
                     db.messages.Add(msg);
@@ -400,102 +411,75 @@ namespace CharceApp.Controllers
 
                     NewMessageNotification nmn = new NewMessageNotification()
                     {
-                        RecieverID = RecieverID
+                        RecieverID = id
                     };
                     db.newmessagenotifications.Add(nmn);
                     db.SaveChanges();
 
-                    
+
                 }
-                else //meaning this is not the first text
+                else
                 {
-
-
-
                     Message msg = new Message()
                     {
                         Date = DateTime.Now,
                         ConversationID = convo.ID,
-                        SenderDispName = ba.BusinessName,
-                        SenderID = ba.ID,
+                        SenderDispName = pa.Names + " " + pa.Surname,
+                        SenderID = pa.ID,
                         Seen = false,
-                        Text = txt,
-                        isOrder = false,
+                        Text = convo.LastMessage,
+                        isOrder = true,
                         OrderID = 0
                     };
                     db.messages.Add(msg);
                     db.SaveChanges();
+                    convo.LastMessage = pa.Names + " " + pa.Surname + " " + "placed an order";
+                    convo.LastSenderID = pa.ID;
+                    convo.Date = DateTime.Now;
+
 
                     NewMessageNotification nmn = new NewMessageNotification()
                     {
-                        RecieverID = RecieverID
+                        RecieverID = id
                     };
                     db.newmessagenotifications.Add(nmn);
+
                     db.SaveChanges();
 
-                    convo.LastSenderID = active_id;
-                    convo.LastMessage = txt;
-                    convo.Date = DateTime.Now;
-                    convo.Seen = false;
-                    db.SaveChanges();
-
-                    
                 }
 
             }
-            else // I am the customer (object pa ^^^^), sending a message to the business
-            {
+
+        }
+        
+
+
+        [Authorize]
+        public void SendOrder(int RecieverID, string txt, int orderid,int listorder_id)
+        {
+            string myUsername = User.Identity.GetUserName();
+            string myId = User.Identity.GetUserId();
+            PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
+            ActiveProfile active_profile = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myId).FirstOrDefault();
+            int active_id = active_profile.ActiveProfileID;
 
                 BusinessAccount company = db.businessaccounts.ToList()
                     .Where(x => x.ID == RecieverID).FirstOrDefault();
 
-
-                if (convo == null) //first time message
-                {
-
                     if (orderid != 0)
                     {
                         Order order = db.orders.ToList().Where(x => x.ID == orderid).FirstOrDefault();
                         Cart cart = db.carts.ToList().Where(x => x.ID == order.CartID).FirstOrDefault();
 
-                        Conversation conversation = new Conversation()
-                        {
-                            Date = DateTime.Now,
-                            FirstPersonDispName = pa.Names + " " + pa.Surname,
-                            FirstPersonID = pa.ID,
-                            SecondPersonDispName = company.BusinessName,
-                            SecondPersonID = company.ID,
-                            LastMessage = pa.Names + " " + pa.Surname + " " + "placed an order for " + order.Qauntity + " " + order.Product,
-                            LastSenderID = pa.ID,
-                            Seen = false
-                            
-                        };
-                        db.conversations.Add(conversation);
-                        db.SaveChanges();
+                        
 
-                        Message msg = new Message()
-                        {
-                            Date = DateTime.Now,
-                            ConversationID = conversation.ID,
-                            SenderDispName = pa.Names + " " + pa.Surname,
-                            SenderID = pa.ID,
-                            Seen = false,
-                            Text = conversation.LastMessage,
-                            isOrder=true,
-                            OrderID=orderid
-                        };
-                        db.messages.Add(msg);
-                        db.SaveChanges();
+                        ListOrder l_order = db.listorders.ToList()
+                            .Where(x => x.ID == listorder_id && x.Status=="Pending").FirstOrDefault();
 
-                        NewMessageNotification nmn = new NewMessageNotification()
-                        {
-                            RecieverID = RecieverID
-                        };
-                        db.newmessagenotifications.Add(nmn);
                         db.carts.Remove(cart);
                         db.SaveChanges();
 
-                        
 
                     }
                     else
@@ -506,52 +490,9 @@ namespace CharceApp.Controllers
 
                     }
 
+                
 
 
-                }
-                else //meaning this is not the first text
-                {
-
-                    if (orderid != 0)
-                    {
-                        Order order = db.orders.ToList().Where(x => x.ID == orderid).FirstOrDefault();
-                        Cart cart = db.carts.ToList().Where(x => x.ID == order.CartID).FirstOrDefault();
-
-                        Message msg = new Message()
-                        {
-                            Date = DateTime.Now,
-                            ConversationID = convo.ID,
-                            SenderDispName = pa.Names + " " + pa.Surname,
-                            SenderID = pa.ID,
-                            Seen = false,
-                            Text = pa.Names + " " + pa.Surname + " " + "placed an order for " + order.Qauntity + " " + order.Product,
-                            isOrder=true, OrderID=orderid
-                        };
-                        db.messages.Add(msg);
-                        db.SaveChanges();
-
-                        NewMessageNotification nmn = new NewMessageNotification()
-                        {
-                            RecieverID = RecieverID
-                        };
-                        db.newmessagenotifications.Add(nmn);
-                        db.carts.Remove(cart);
-                        
-                        db.SaveChanges();
-
-                        
-
-                    }
-                    else
-                    {
-                        return;
-
-                    }
-
-
-                }
-
-            }
 
         }
 

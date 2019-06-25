@@ -1,0 +1,122 @@
+﻿@model IEnumerable<CharceApp.Models.Order>
+
+@{
+    ViewBag.Title = "BulkOrder";
+}
+
+
+
+<table class="table">
+    <thead style="background-color:lightgray">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+
+
+    @foreach (var item in Model)
+    {
+
+        <tbody>
+            <tr>
+                <td>@item.Product</td>
+                <td>@item.Qauntity</td>
+                <td>@item.Price</td>
+            </tr>
+
+        </tbody>
+
+        <tbody>
+            <tr>
+                <td style="font-weight:700">Subtotal:</td>
+                <td></td>
+                <td>@item.Total</td>
+
+            </tr>
+
+        </tbody>
+
+        
+
+    }
+
+    <thead style="background-color:lightgray">
+        <tr>
+            <th>Payment Method</th>
+            <th></th>
+            <th>Deliver/Collect</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>EFT</td>
+            <td></td>
+            <td>Collect</td>
+
+        </tr>
+
+    </tbody>
+
+
+    <thead>
+        <tr>
+            <th>Total</th>
+            <th></th>
+            <th>VAT</th>
+
+        </tr>
+    </thead>
+
+
+    <tbody>
+        <tr>
+            
+            <td>R @ViewBag.Total</td>
+            <td></td>
+            <td>14%</td>
+
+        </tr>
+
+    </tbody>
+
+
+
+</table>
+
+@{
+    if (ViewBag.Status == "Pending")
+    {
+        <div class="three ui buttons">
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui green button">Pending</a>
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+        </div>
+
+    }
+    else if (ViewBag.Status == "Accepted")
+    {
+        <div class="three ui buttons">
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui green button">Accept</a>
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+        </div>
+    }
+    else
+    {
+        <div class="three ui buttons">
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+            <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui green button">Decline</a>
+        </div>
+    }
+}
+
+
+
+
+
+

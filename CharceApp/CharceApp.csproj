@@ -306,6 +306,7 @@
     <Content Include="Views\pages\Message.cshtml" />
     <Content Include="Views\pages\OpenMessage.cshtml" />
     <Content Include="Views\pages\ViewOrder.cshtml" />
+    <Content Include="Views\pages\BulkOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
