@@ -2,10 +2,30 @@
 
 <div class="chats" style="margin-bottom:100px">
 
-    <div class="ui fluid icon input" style="margin-bottom:20px">
-        <input type="text" placeholder="Search...">
-        <i class="search icon"></i>
-    </div>
+    @{
+        if (ViewBag.hasSearch)
+        {
+            <form action="/home/index">
+                <div class="ui fluid icon input" style="margin-bottom:20px">
+                    <input type="text" placeholder="Search..." name="search" value="@ViewBag.Search">
+                    <i class="search icon"></i>
+                </div>
+            </form>
+
+        }
+        else
+        {
+            <form action="/home/index">
+                <div class="ui fluid icon input" style="margin-bottom:20px">
+                    <input type="text" placeholder="Search..." name="search">
+                    <i class="search icon"></i>
+                </div>
+            </form>
+
+        }
+    }
+    
+    
 
     <h4 style="text-align:center;font-weight:100;color:gray">@ViewBag.AccountName</h4>
     <h6 style="text-align:center;font-weight:100;color:gray">@ViewBag.AccountType Account</h6>
@@ -65,22 +85,25 @@
                                 }
 
                                 <div class="metadata">
-                                    <div class="date">2 days ago</div>
-                                    <div class="rating">
-                                        <i class="star icon"></i>
-                                        5 Faves
-                                    </div>
+                                    <div class="date">@item.Date.Day.@item.Date.Month.@item.Date.Year</div>
+
+                                    @{
+                                        if (!item.Seen && item.LastSenderID != ViewBag.AccountID)
+                                        {
+                                            <div class="rating">
+                                                <i class=" icon"></i>
+
+                                                <i style="color:lightgreen" class="circle icon"></i>
+                                            </div>
+                                        }
+                                    }
+                                    
                                 </div>
                                 <div class="text">
                                     @item.LastMessage
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
 
                                     }
                                     else
@@ -124,11 +147,17 @@
 
 
                                                 <div class="metadata">
-                                                    <div class="date">2 days ago</div>
-                                                    <div class="rating">
-                                                        <i class="star icon"></i>
-                                                        5 Faves
-                                                    </div>
+                                                    <div class="date">@item.Date.Day.@item.Date.Month.@item.Date.Year</div>
+                                                    @{
+                                                        if (!item.Seen && item.LastSenderID != ViewBag.AccountID)
+                                                        {
+                                                            <div class="rating">
+                                                                <i class=" icon"></i>
+
+                                                                <i style="color:lightgreen" class="circle icon"></i>
+                                                            </div>
+                                                        }
+                                                    }
                                                 </div>
                                                 <div class="text">
                                                     @item.LastMessage
@@ -161,9 +190,14 @@
         <div class="bottom_menu">
 
             <div class="ui equal width center aligned padded grid">
+
                 <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
                     <div class="column">
                         <p>Chat</p>
+
+                    </div>
+                    <div class="column">
+                        <p>Shops</p>
 
                     </div>
                     <div class="column deals-button">

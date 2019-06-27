@@ -5,8 +5,91 @@
 }
 
 @{
+        if (ViewBag.hasSearch)
+        {
+            <form action="/profilepicsproduct/index">
+                <div class="ui fluid icon input" style="margin-bottom:20px">
+                    <input type="text" placeholder="Search..." name="search" value="@ViewBag.Search">
+                    <i class="search icon"></i>
+                </div>
+            </form>
 
-    foreach (var item in Model)
+        }
+        else
+        {
+            <form action="/profilepicsproduct/index">
+                <div class="ui fluid icon input" style="margin-bottom:20px">
+                    <input type="text" placeholder="Search..." name="search">
+                    <i class="search icon"></i>
+                </div>
+            </form>
+
+    }
+    <div class="ui two cards" style="margin-bottom:70px">
+        @foreach (var item in Model)
+        {
+            string comName;
+            List<int> prods = new List<int>();
+            using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+            {
+                CharceApp.Models.BusinessAccount ba = db.businessaccounts.ToList().Where(x => x.ID == item.BusinessId).FirstOrDefault();
+                comName = ba.BusinessName;
+
+                List<CharceApp.Models.Cart> myCart = db.carts.ToList().Where(x => x.PersonalAccountID == ViewBag.MyID).ToList();
+
+
+                foreach (CharceApp.Models.Cart c in myCart)
+                {
+                    prods.Add(c.ProfilePicProductID);
+                }
+            }
+
+        <div class="card">
+            <div class="extra">
+                <a href="#" style="color:skyblue">@comName</a>
+                
+            </div>
+            <div class="image">
+                <img src="/ProfilePicFile/ProductPic/@item.ID">
+            </div>
+            <div class="extra">
+                @item.Name | R @item.Price | <a href="https://wa.me/?text=Message from Charce" style="color:Highlight">Share</a>
+            </div>
+            <div class="extra" >
+                
+                @{
+
+                    if (prods.Contains(item.ID))
+                    {
+                        <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="negative ui compact labeled icon button">
+                            <i class="cart icon"></i>
+                            Remove
+                        </a>
+
+                    }
+                    else
+                    {
+                        <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="positive ui compact labeled icon button">
+                            <i class="cart icon"></i>
+                            Add
+                        </a>
+                    }
+
+                }
+
+
+
+                
+            </div>
+        </div>
+
+        }
+    </div>
+
+
+
+
+    @*foreach (var item in Model)
     {
         string comName;
         List<int> prods = new List<int>();
@@ -74,22 +157,17 @@
                 </div>
 
 
-                @*<i class="comment icon"></i>
-                    3 commen*@
             </div>
             <div class="extra content">
                 <h6>Tax @item.Tax</h6>
-                @*<div class="ui large transparent left icon input">
-                        <i class="heart outline icon"></i>
-                        <input type="text" placeholder="Add Comment...">
-                    </div>*@
+               
             </div>
         </div>
 
 
 
 
-    }
+    }*@
 
 }
 

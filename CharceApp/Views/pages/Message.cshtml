@@ -19,7 +19,7 @@
                     <span class="name alt">
                         @item.SenderDispName
                     </span>
-                    <span class="timestamp">10:22 pm</span>
+                    <span class="timestamp">@item.Date.TimeOfDay.ToString().Substring(0, 5)</span>
                     <p class="message">@item.Text</p>
                 </div>
                 <div class="bubble-arrow alt"></div>
@@ -32,12 +32,12 @@
         
         if (ViewBag.isBusiness)
         {
-            <a href="/pages/BulkOrder?business_id=@ViewBag.MyId&personal_id=@ViewBag.RecieverID">
+            <a href="/pages/BulkOrder?business_id=@ViewBag.MyId&personal_id=@ViewBag.RecieverID&time=@item.Date.TimeOfDay.ToString().Substring(0, 5)">
                 <div class="ui segment" style="margin-top:10px">
                     @*<a class="ui orange left ribbon label">Specs</a>
                         <p></p>*@
-                    <span class="ui teal left ribbon label"><i class="tag icon"></i> New Order</span>
-                    <h3 style="font-weight:400">Open Orders</h3>
+                    <span class="ui teal left ribbon label"><i class="tag icon"></i> New Order (@item.Date.TimeOfDay.ToString().Substring(0,5))</span>
+                    <h3 style="font-weight:400">@item.Text</h3>
                 </div>
 
             </a>
@@ -45,12 +45,12 @@
         }
         else
         {
-            <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.MyId">
+            <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.MyId&time=@item.Date.TimeOfDay.ToString().Substring(0, 5)">
                 <div class="ui segment" style="margin-top:10px">
                     @*<a class="ui orange left ribbon label">Specs</a>
                         <p></p>*@
-                    <span class="ui teal left ribbon label"><i class="tag icon"></i> New Order</span>
-                    <h3 style="font-weight:400">@item.SenderDispName placed a new order!</h3>
+                    <span class="ui teal left ribbon label"><i class="tag icon"></i> New Order (@item.Date.TimeOfDay.ToString().Substring(0, 5))</span>
+                    <h4 style="font-weight:400">@item.Text</h4>
                 </div>
 
             </a>
@@ -111,7 +111,7 @@
             <div class="bubble">
                 <div class="txt">
                     <span class="name">@item.SenderDispName</span>
-                    <span class="timestamp">10:20 pm</span>
+                    <span class="timestamp">@item.Date.TimeOfDay.ToString().Substring(0, 5)</span>
                     <span class="message">
                         @item.Text
                     </span>

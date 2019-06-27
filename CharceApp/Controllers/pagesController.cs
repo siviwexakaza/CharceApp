@@ -12,6 +12,19 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [Authorize]
+        public ActionResult Shops()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Deals()
+        {
+            return View();
+        }
+
         [Authorize]
         public ActionResult ViewOrder(int id)
         {
@@ -22,16 +35,23 @@ namespace CharceApp.Controllers
 
 
         [Authorize]
-        public ActionResult BulkOrder(int business_id, int personal_id)
+        public ActionResult BulkOrder(int business_id, int personal_id, string time)
         {
+            string myid = User.Identity.GetUserId();
+            ActiveProfile active = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+
+
+
             ListOrder listorder = db.listorders.ToList()
-                .Where(x => x.BusinessID == business_id && x.PersonalAccID == personal_id)
+                .Where(x => x.BusinessID == business_id && x.PersonalAccID == personal_id && x.Date.TimeOfDay.ToString().Substring(0, 5) == time)
                 .FirstOrDefault();
             List<ProductListOrder> productorder = db.productlistorders.ToList()
                 .Where(x => x.ListOrderID == listorder.ID).ToList();
 
             List<Order> orders = new List<Order>();
             double total=0;
+            bool im_business = false;
 
             foreach(ProductListOrder p in productorder)
             {
@@ -42,6 +62,18 @@ namespace CharceApp.Controllers
                     total += order.Price * order.Qauntity;
                 }
             }
+
+            if (listorder.BusinessID == active.ActiveProfileID)
+            {
+                im_business = true;
+            }
+            if (listorder.BusinessID == active.ActiveProfileID && listorder.Status=="Pending")
+            {
+                
+                listorder.Status = "Seen";
+                db.SaveChanges();
+            }
+            ViewBag.ImBusiness = im_business;
             ViewBag.OrderID = listorder.ID;
             ViewBag.Status = listorder.Status;
             ViewBag.Total = total;
@@ -138,7 +170,7 @@ namespace CharceApp.Controllers
                 //    db.SaveChanges();
                 //}
 
-                return View(messages.Skip(page).Take(15));
+                return View(messages);
 
             }
             else
@@ -149,11 +181,7 @@ namespace CharceApp.Controllers
 
         }
 
-
-
-
-
-
+        
         [Authorize]
         public ActionResult AddAccount()
         {
@@ -168,8 +196,6 @@ namespace CharceApp.Controllers
             List<BusinessAccount> bussiness_accounts = db.businessaccounts.ToList()
                 .Where(x => x.PersonalAccountID == pa.ID).ToList();
 
-
-            
             ActiveProfile active_profile = db.activeprofiles.ToList().
                 Where(x => x.ApplicationUserId == myId).FirstOrDefault();
 

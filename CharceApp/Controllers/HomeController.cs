@@ -13,7 +13,7 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             string myId = User.Identity.GetUserId();
             ActiveProfile active_profile = db.activeprofiles.ToList().
@@ -68,13 +68,34 @@ namespace CharceApp.Controllers
             ViewBag.AccountName = account_name;
             ViewBag.AccountID = account_id;
             ViewBag.AccountType = account_type;
+            ViewBag.Search = search;
 
+            bool hasSearch = false;
 
-            List<Conversation> conversations = db.conversations.ToList()
+            if(search != null)
+            {
+                List<Conversation> conversations = db.conversations.ToList()
+                .Where(x =>( x.FirstPersonID == account_id || x.SecondPersonID == account_id)
+                && (x.LastMessage.ToLower().Contains(search.ToLower()) || x.FirstPersonDispName.ToLower().Contains(search.ToLower()) ||
+                x.SecondPersonDispName.ToLower().Contains(search.ToLower()))).ToList();
+                hasSearch = true;
+                ViewBag.hasSearch = hasSearch;
+                
+
+                return View(conversations.OrderByDescending(x => x.Date));
+            }
+            else
+            {
+                List<Conversation> conversations = db.conversations.ToList()
                 .Where(x => x.FirstPersonID == account_id || x.SecondPersonID == account_id).ToList();
+                ViewBag.hasSearch = hasSearch;
+
+                return View(conversations.OrderByDescending(x => x.Date));
+            }
+            
 
 
-            return View(conversations.OrderByDescending(x=>x.Date));
+            
         }
 
         public ActionResult About()

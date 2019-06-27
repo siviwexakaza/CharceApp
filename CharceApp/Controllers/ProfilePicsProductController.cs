@@ -11,7 +11,7 @@ namespace CharceApp.Controllers
     public class ProfilePicsProductController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
 
             string myid = User.Identity.GetUserId();
@@ -19,7 +19,30 @@ namespace CharceApp.Controllers
             int items = db.carts.ToList().Where(x => x.PersonalAccountID == p.ID).ToList().Count();
             ViewBag.Items = items;
             ViewBag.MyID = p.ID;
-            return View(db.profilepic_products.ToList().OrderByDescending(x => x.ID));
+
+            ViewBag.Search = search;
+
+            bool hasSearch = false;
+
+            if (search != null)
+            {
+                hasSearch = true;
+                ViewBag.hasSearch = hasSearch;
+                List<ProfilePic_Product> pro = db.profilepic_products.ToList()
+                    .Where(x=>x.Name !=null && x.Name.ToLower().Contains(search.ToLower())).ToList();
+                
+                return View(pro);
+
+                
+            }
+            else
+            {
+                ViewBag.hasSearch = hasSearch;
+                return View(db.profilepic_products.ToList().OrderByDescending(x => x.ID));
+                
+            }
+
+            
         }
 
         [Authorize]

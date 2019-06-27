@@ -17,7 +17,10 @@ namespace CharceApp.Controllers
         {
             ListOrder order = db.listorders.ToList().Where(x => x.ID == listorderid).FirstOrDefault();
             order.Status = newstatus;
+            
             db.SaveChanges();
+
+            SendMessage(order.PersonalAccID, "Order #" + order.ID + " is " + newstatus,0);
 
             return Redirect(Request.UrlReferrer.ToString());
 
@@ -316,7 +319,9 @@ namespace CharceApp.Controllers
                 db.SaveChanges();
 
                 ListOrder list = db.listorders.ToList()
-                    .Where(x => x.BusinessID == order.BusinessID && x.PersonalAccID == order.PersonalAccID)
+                    .Where(x => x.BusinessID == order.BusinessID && x.PersonalAccID == order.PersonalAccID &&
+                    x.Status !="Seen" && x.Status !="Accepted" && x.Status !="Declined" && x.Status != "Pending"
+                    && x.Status != "Shipped" && x.Status != "Delivered" && x.Status != "Ready to Pickup" && x.Status != "Returned")
                     .FirstOrDefault();
                 if(list == null)
                 {
@@ -402,7 +407,7 @@ namespace CharceApp.Controllers
                         SenderDispName = pa.Names + " " + pa.Surname,
                         SenderID = pa.ID,
                         Seen = false,
-                        Text = conversation.LastMessage,
+                        Text = "New order has been placed",
                         isOrder = true,
                         OrderID = 0
                     };
@@ -427,7 +432,7 @@ namespace CharceApp.Controllers
                         SenderDispName = pa.Names + " " + pa.Surname,
                         SenderID = pa.ID,
                         Seen = false,
-                        Text = convo.LastMessage,
+                        Text = "New order has been placed",
                         isOrder = true,
                         OrderID = 0
                     };
@@ -436,6 +441,7 @@ namespace CharceApp.Controllers
                     convo.LastMessage = pa.Names + " " + pa.Surname + " " + "placed an order";
                     convo.LastSenderID = pa.ID;
                     convo.Date = DateTime.Now;
+                    convo.Seen = false;
 
 
                     NewMessageNotification nmn = new NewMessageNotification()
