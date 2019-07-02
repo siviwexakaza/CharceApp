@@ -148,5 +148,18 @@ textarea {
 
 
 
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  
+}
+.scrolling-wrapper .card {
+    display: inline-block;
+  }
+
+
+
 
 

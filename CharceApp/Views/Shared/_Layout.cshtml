@@ -11,7 +11,7 @@
 <body>
 
     @{
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity.IsAuthenticated && ViewBag.Title != "Message")
         {
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">

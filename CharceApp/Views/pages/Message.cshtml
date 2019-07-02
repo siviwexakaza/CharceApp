@@ -4,6 +4,29 @@
     ViewBag.Title = "Message";
 }
 
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                <a href="/home/index" style="color:white">
+                    <h5>
+                        <i class=" left arrow icon"></i> @ViewBag.RecName
+
+                    </h5>
+                </a>
+                
+            </div>
+            
+            
+        </div>
+        
+    </div>
+</div>
+
+
+
+
 <div style="margin-bottom:150px">
 
 
@@ -20,7 +43,35 @@
                         @item.SenderDispName
                     </span>
                     <span class="timestamp">@item.Date.TimeOfDay.ToString().Substring(0, 5)</span>
-                    <p class="message">@item.Text</p>
+                    <span class="message">
+                        @{
+
+                            if (ViewBag.isBusiness)
+                            {
+                                if (item.Text.Substring(2, 1) == ":")
+                                {
+                                    <a href="/pages/BulkOrder?business_id=@ViewBag.MyId&personal_id=@ViewBag.RecieverID&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                                }
+                                else
+                                {
+                                    <text>@item.Text</text>
+                                }
+                            }
+                            else
+                            {
+                                if (item.Text.Substring(2, 1) == ":")
+                                {
+                                    <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.MyId&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                                }
+                                else
+                                {
+                                    <text>@item.Text</text>
+                                }
+                            }
+
+
+                        }
+                    </span>
                 </div>
                 <div class="bubble-arrow alt"></div>
             </div>
@@ -113,7 +164,34 @@
                     <span class="name">@item.SenderDispName</span>
                     <span class="timestamp">@item.Date.TimeOfDay.ToString().Substring(0, 5)</span>
                     <span class="message">
-                        @item.Text
+                        @{
+
+                            if (ViewBag.isBusiness)
+                            {
+                                if (item.Text.Substring(2, 1) == ":")
+                                {
+                                    <a href="/pages/BulkOrder?business_id=@ViewBag.MyId&personal_id=@ViewBag.RecieverID&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                                }
+                                else
+                                {
+                                    <text>@item.Text</text>
+                                }
+                            }
+                            else
+                            {
+                                if (item.Text.Substring(2, 1) == ":")
+                                {
+                                    <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.MyId&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                                }
+                                else
+                                {
+                                    <text>@item.Text</text>
+                                }
+                            }
+
+
+                        }
+                       
                     </span>
 
                 </div>
@@ -126,14 +204,7 @@
     </div>
 
 
-
-
-
-
-
-
-
-
+<div id="msgScroll"></div>
 
 <div style="bottom:0;left:10px;position:fixed;width:100%">
     <form action="/logic/sendmessage">
@@ -156,6 +227,18 @@
     </form>
 
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+		$(document).ready(function ()
+		{
+		    $(window).load(function () {
+		        $("html, body").animate({ scrollTop: $(document).height() }, 10);
+		    });
+		});
+    </script>
+}
 
 
 

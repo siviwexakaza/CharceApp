@@ -193,15 +193,15 @@
 
                 <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
                     <div class="column">
-                        <p>Chat</p>
+                        <a href="/home/index" style="color:white">Chat</a>
 
                     </div>
                     <div class="column">
-                        <p>Shops</p>
+                        <a href="/pages/shops" style="color:white">Shops</a>
 
                     </div>
                     <div class="column deals-button">
-                        <p>Deals</p>
+                        <a href="#" style="color:white">Deals</a>
 
                     </div>
                 </div>
@@ -210,3 +210,35 @@
             </div>
 
         </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            setInterval(function () {
+               reload_page();
+            }, 3000);
+
+            function reload_page() {
+
+                $.get('/logic/CheckNewMessage', null, function (data) {
+                    if (data.reload) {
+                        $.get('/logic/SeenMessage', null, function () {
+                            var audio = {};
+                            audio["alert"] = new Audio();
+                            audio["alert"].src = "/Content/alert.wav"
+                            audio["alert"].addEventListener('load', function () {
+                                audio["alert"].play();
+                            });
+                            window.location.reload(true);
+                        });
+                        //alert("New Message");
+                    }
+                });
+
+                
+            }
+		});
+    </script>
+}

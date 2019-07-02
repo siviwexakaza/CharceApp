@@ -16,11 +16,19 @@ namespace CharceApp.Controllers
         [Authorize]
         public ActionResult Shops()
         {
-            return View();
+            List<ProfilePic_Product> products = db.profilepic_products.ToList();
+            int num_products = products.Count();
+
+            return View(products);
         }
 
         [Authorize]
         public ActionResult Deals()
+        {
+            return View();
+        }
+
+        public ActionResult ProductDetails(int id)
         {
             return View();
         }
@@ -163,6 +171,25 @@ namespace CharceApp.Controllers
                     convo.Seen = true;
                     db.SaveChanges();
 
+                }
+
+                if (im_business)
+                {
+                    PersonalAccount personal = db.personalaccounts.ToList().Where(x => x.ID == recieverid).FirstOrDefault();
+                    
+
+                    ViewBag.RecName = personal.Names + " " + personal.Surname;
+                    ChatScreen c = db.chatscreens.ToList().Where(x => x.AccountType == "Business" && x.AccountID == active.ActiveProfileID).FirstOrDefault();
+                    c.hasMessage = false;
+                    db.SaveChanges();
+                }
+                else
+                {
+                   
+                    BusinessAccount business = db.businessaccounts.ToList().Where(x => x.ID == recieverid).FirstOrDefault();
+                    ChatScreen c = db.chatscreens.ToList().Where(x => x.AccountType == "Personal" && x.AccountID == active.ActiveProfileID).FirstOrDefault();
+                    c.hasMessage = false;
+                    ViewBag.RecName = business.BusinessName;
                 }
                 //if (messages.Last().SenderID != active.ActiveProfileID && messages.Last().Seen == false)
                 //{

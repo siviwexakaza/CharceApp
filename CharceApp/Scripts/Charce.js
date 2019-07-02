@@ -4,6 +4,9 @@
         alert('hello from charce');
     });
 
+    $("html, body").animate({ scrollTop: $("#msgScroll").scrollTop() }, 1000);
+    
+
     $('.ui.checkbox')
   .checkbox()
     ;
