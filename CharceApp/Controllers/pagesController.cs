@@ -12,6 +12,34 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize]
+        public ActionResult BusinessProfile(int id)
+        {
+            BusinessAccount b = db.businessaccounts.ToList().Where(x => x.ID == id).FirstOrDefault();
+            if (b == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                List<ProfilePic_Product> products = db.profilepic_products.ToList()
+                    .Where(x => x.BusinessId == b.ID).ToList();
+                int follows = db.follows.ToList().Where(x => x.BusinessID == b.ID).ToList().Count();
+                ViewBag.Followers = follows;
+                ViewBag.BusinessName = b.BusinessName;
+                ViewBag.Type = b.BusinessType;
+                ViewBag.Website = b.Website;
+                ViewBag.Email = b.Email;
+                ViewBag.Phone = b.Phone;
+                ViewBag.Location = b.Location;
+                ViewBag.ID = b.ID;
+                
+
+
+                return View(products);
+            }
+            
+        }
 
         [Authorize]
         public ActionResult Shops()

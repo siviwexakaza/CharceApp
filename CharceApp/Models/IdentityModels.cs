@@ -50,6 +50,7 @@ namespace CharceApp.Models
         public DbSet<ListOrder> listorders { get; set; }
         public DbSet<ProductListOrder> productlistorders { get; set; }
         public DbSet<ChatScreen> chatscreens { get; set; }
+        public DbSet<Follow> follows { get; set; }
 
     }
 }

@@ -202,6 +202,7 @@
     <Compile Include="Models\FileType_Product.cs" />
     <Compile Include="Models\File_Business.cs" />
     <Compile Include="Models\File_Product.cs" />
+    <Compile Include="Models\Follow.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListOrder.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -313,6 +314,7 @@
     <Content Include="Views\pages\BulkOrder.cshtml" />
     <Content Include="Views\accounts\Index.cshtml" />
     <Content Include="Views\pages\Shops.cshtml" />
+    <Content Include="Views\pages\BusinessProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

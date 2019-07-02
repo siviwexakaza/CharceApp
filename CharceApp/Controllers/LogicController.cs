@@ -13,6 +13,34 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
+        public ActionResult ToggleFollow(int business_id)
+        {
+            BusinessAccount b = db.businessaccounts.ToList().Where(x => x.ID == business_id).FirstOrDefault();
+            string myid = User.Identity.GetUserId();
+            PersonalAccount p = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
+
+            Follow follows = db.follows.ToList().Where(x => x.BusinessID == b.ID && x.PersonalAccID == p.ID).FirstOrDefault();
+
+            if(follows != null)
+            {
+                db.follows.Remove(follows);
+                db.SaveChanges();
+            }
+            else
+            {
+                Follow follow = new Follow() {
+                    BusinessID=b.ID, PersonalAccID=p.ID
+                };
+
+                db.follows.Add(follow);
+                db.SaveChanges();
+
+            }
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [Authorize]
         public void SeenMessage()
         {
             string myid = User.Identity.GetUserId();
