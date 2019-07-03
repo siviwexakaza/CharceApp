@@ -315,6 +315,8 @@
     <Content Include="Views\accounts\Index.cshtml" />
     <Content Include="Views\pages\Shops.cshtml" />
     <Content Include="Views\pages\BusinessProfile.cshtml" />
+    <Content Include="Views\pages\MoreShops.cshtml" />
+    <Content Include="Views\pages\ProductDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

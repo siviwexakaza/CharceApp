@@ -1,0 +1,28 @@
+﻿@model CharceApp.Models.ProfilePic_Product
+
+@{
+    ViewBag.Title = Model.Name +", R"+Model.Price+" | Shop with Charce Now!";
+}
+
+
+<div class="ui divided items">
+    <div class="item">
+        <div class="image">
+            <img src="/ProfilePicFile/ProductPic/@Model.ID">
+        </div>
+        <div class="content">
+            <a class="header">@Model.Name | @Model.Price</a>
+            <div class="meta">
+                <span class="cinema">@Model.Description</span>
+            </div>
+            @*<div class="description">
+                <p>@ViewBag.Location</p>
+                <p>@ViewBag.Email | @ViewBag.Phone</p>
+
+            </div>*@
+        </div>
+    </div>
+
+</div>
+
+

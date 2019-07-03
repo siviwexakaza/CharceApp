@@ -6,16 +6,133 @@
 
 
 
-<h2 class="ui center aligned icon header">
-    <i class="circular users icon"></i>
-    @ViewBag.BusinessName
-</h2>
+<div class="ui divided items">
+    <div class="item">
+        <div class="image">
+            <img src="/ProfilePicFile/Business_Pic/@ViewBag.ID">
+        </div>
+        <div class="content">
+            <a class="header">@ViewBag.BusinessName</a>
+            <div class="meta">
+                <span class="cinema">@ViewBag.Followers followers</span>
+            </div>
+            <div class="description">
+                <p>@ViewBag.Location</p>
+                <p>@ViewBag.Email | @ViewBag.Phone</p>
+                
+            </div>
+            <div class="extra">
+                @{
+                    if (ViewBag.iFollow)
+                    {
+                        <div class="ui label"><i class="minus icon"></i> <a href="/logic/ToggleFollow?business_id=@ViewBag.ID" style="color:black !important"> Unfollow</a></div>
+                    }
+                    else
+                    {
+                        <div class="ui label"><i class="plus icon"></i> <a href="/logic/ToggleFollow?business_id=@ViewBag.ID" style="color:black !important"> Follow</a></div>
+                    }
+                }
+                
+                <div class="ui label"><i class="globe icon"></i> @ViewBag.Type Company</div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 
 
-@foreach (var item in Model) {
+<div class="ui two cards" style="margin-bottom:70px;margin-top:20px">
+    @foreach (var item in Model)
+    {
+        string comName;
+        List<int> prods = new List<int>();
+        using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+        {
+            CharceApp.Models.BusinessAccount ba = db.businessaccounts.ToList().Where(x => x.ID == item.BusinessId).FirstOrDefault();
+            comName = ba.BusinessName;
+
+            List<CharceApp.Models.Cart> myCart = db.carts.ToList().Where(x => x.PersonalAccountID == ViewBag.MyID).ToList();
 
 
-}
+            foreach (CharceApp.Models.Cart c in myCart)
+            {
+                prods.Add(c.ProfilePicProductID);
+            }
+        }
+
+        <div class="card">
+            
+            <div class="image">
+                <img src="/ProfilePicFile/ProductPic/@item.ID">
+            </div>
+            <div class="extra">
+                @{ 
+                    string msg = "Charce offers " + item.Name + " at R" + item.Price + "! Check it out: charceapp-001-site1.atempurl.com/pages/productdetails/" + item.ID;
+                }
+                @item.Name | R @item.Price | <a href='https://wa.me/?text=@msg' style="color:Highlight">Share</a>
+            </div>
+            <div class="extra">
+
+                @{
+
+                    if (prods.Contains(item.ID))
+                    {
+                        <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="negative ui compact labeled icon button">
+                            <i class="cart icon"></i>
+                            Remove
+                        </a>
+
+                    }
+                    else
+                    {
+                        <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="positive ui compact labeled icon button">
+                            <i class="cart icon"></i>
+                            Add
+                        </a>
+                    }
+
+                }
+
+
+
+
+            </div>
+        </div>
+
+                    }
+</div>
+
+
+<div class="bottom_menu">
+
+    <div class="ui equal width center aligned padded grid">
+
+        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+            <div class="column">
+                <a href="/home/index" style="color:white">Chat</a>
+
+            </div>
+            <div class="column">
+                <a href="/pages/shops" style="color:white">My Shops</a>
+
+            </div>
+            <div class="column deals-button">
+                <a href="#" style="color:white">Deals</a>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
 

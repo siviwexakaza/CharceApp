@@ -1,0 +1,183 @@
+﻿
+@model IEnumerable<CharceApp.Models.BusinessAccount>
+
+@{
+    ViewBag.Title = "Shops";
+}
+
+@*<h2 style="font-weight:100;margin-top:30px">Specials</h2>*@
+
+@*<div class="scrolling-wrapper">
+
+        <div class="card" style="margin-right:15px">
+
+            <div class="ui divided items">
+                <div class="item">
+                    <div class="image">
+                        <img src="https://cdn.foodbeast.com/wp-content/uploads/2017/06/Webp.net-compress-image.jpg">
+                    </div>
+                    <div class="content">
+                        <a class="header">Wacky Wednesday</a>
+                        <div class="meta">
+                            <span class="cinema">R49.99</span>
+                        </div>
+                        <div class="description">
+                            <p>Chicken/Beef petty, onion, tomato and BBQ sauce</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui label">Steers</div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card" style="margin-right:15px">
+
+            <div class="ui divided items">
+                <div class="item">
+                    <div class="image">
+                        <img src="https://previews.123rf.com/images/magone/magone1709/magone170900030/85933238-breakfast-vegan-bowl-for-healthy-eating-isolated-on-white-background-top-view.jpg">
+                    </div>
+                    <div class="content">
+                        <a class="header">Vegan Breakfast</a>
+                        <div class="meta">
+                            <span class="cinema">R149.99</span>
+                        </div>
+                        <div class="description">
+                            <p>Gluten free vegan breakfast made with fresh organic produce.</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui label">The Vegan Store</div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-right:15px">
+
+            <div class="ui divided items">
+                <div class="item">
+                    <div class="image">
+                        <img src="https://previews.123rf.com/images/grafner/grafner1505/grafner150500042/40558742-fast-food-meal-on-white-background.jpg">
+                    </div>
+                    <div class="content">
+                        <a class="header">The Full Meal</a>
+                        <div class="meta">
+                            <span class="cinema">R129.99</span>
+                        </div>
+                        <div class="description">
+                            <p>Beef burger, fried chips and a soda at a low price.</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui label">Koolaid</div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>*@
+
+
+@{
+    if (ViewBag.hasSearch)
+    {
+        <form action="/pages/moreshops">
+            <div class="ui fluid icon input" style="margin-bottom:20px">
+                <input type="text" placeholder="Search..." name="search" value="@ViewBag.Search">
+                <i class="search icon"></i>
+            </div>
+        </form>
+
+    }
+    else
+    {
+        <form action="/pages/moreshops">
+            <div class="ui fluid icon input" style="margin-bottom:20px">
+                <input type="text" placeholder="Search..." name="search">
+                <i class="search icon"></i>
+            </div>
+        </form>
+
+    }
+}
+
+
+<div class="ui buttons">
+    <a href="/pages/shops" class="ui labeled icon button">
+        <i class="users icon"></i>
+        My Shops
+    </a>
+
+    <a href="/pages/myshops" class="ui right labeled green icon button">
+        See More Shops
+        <i class="plus icon"></i>
+    </a>
+</div>
+
+
+
+
+
+    @foreach (var item in Model)
+    {
+        <div class="ui relaxed horizontal list" style="margin-top:50px;margin-right:5px">
+
+            <div class="item">
+                <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@item.ID">
+                <div class="content">
+                    <a href="/pages/BusinessProfile/@item.ID" class="header">@item.BusinessName</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    }
+        
+
+
+
+
+
+
+<div class="bottom_menu">
+
+    <div class="ui equal width center aligned padded grid">
+
+        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+            <div class="column">
+                <a href="/home/index" style="color:white">Chat</a>
+
+            </div>
+            <div class="column">
+                <a href="/pages/shops" style="color:white">My Shops</a>
+
+            </div>
+            <div class="column deals-button">
+                <a href="#" style="color:white">Deals</a>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
