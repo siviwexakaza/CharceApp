@@ -193,6 +193,7 @@
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\ChatScreen.cs" />
     <Compile Include="Models\Conversation.cs" />
+    <Compile Include="Models\Deal.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FilePath.cs" />
     <Compile Include="Models\FilePath_Business.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Models\ProfilePic_Business.cs" />
     <Compile Include="Models\ProfilePic_Product.cs" />
     <Compile Include="Models\ReloadScreenVM.cs" />
+    <Compile Include="Models\ShippingAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -317,6 +319,10 @@
     <Content Include="Views\pages\BusinessProfile.cshtml" />
     <Content Include="Views\pages\MoreShops.cshtml" />
     <Content Include="Views\pages\ProductDetails.cshtml" />
+    <Content Include="Views\pages\MakeDealPage.cshtml" />
+    <Content Include="Views\pages\Feedback.cshtml" />
+    <Content Include="Views\pages\Deals.cshtml" />
+    <Content Include="Views\pages\CheckoutDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

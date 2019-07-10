@@ -135,14 +135,27 @@
 
     @foreach (var item in Model)
     {
-        <div class="ui relaxed horizontal list" style="margin-top:50px;margin-right:5px">
-
+        <div class="ui divided items" style="margin-top:10px;margin-bottom:30px">
             <div class="item">
-                <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@item.ID">
+                <div class="image">
+                    <img src="/ProfilePicFile/Business_Pic/@item.ID">
+                </div>
                 <div class="content">
-                    <a href="/pages/BusinessProfile/@item.ID" class="header">@item.BusinessName</a>
+                    <a href="/pages/businessprofile/@item.ID" class="header">@item.BusinessName</a>
+
+                    <div class="description">
+                        <p>@item.Location</p>
+                        <p>@item.Email | @item.Phone</p>
+
+                    </div>
+                    <div class="extra">
+
+
+                        <div class="ui label"><i class="globe icon"></i> @item.BusinessType Company</div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
 

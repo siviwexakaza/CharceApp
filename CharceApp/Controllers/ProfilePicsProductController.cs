@@ -50,11 +50,21 @@ namespace CharceApp.Controllers
         {
             string myid = User.Identity.GetUserId();
             PersonalAccount p = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
-            int items = db.carts.ToList().Where(x => x.PersonalAccountID == p.ID).ToList().Count();
-            ViewBag.Items = items;
-            ViewBag.MyID = p.ID;
-            return View(db.profilepic_products.ToList()
-                .Where(x=>x.BusinessId == id).OrderByDescending(x => x.ID));
+            BusinessAccount business = db.businessaccounts.ToList().Where(x => x.ID == id).FirstOrDefault();
+
+            if (business.PersonalAccountID == p.ID)
+            {
+                int items = db.carts.ToList().Where(x => x.PersonalAccountID == p.ID).ToList().Count();
+                ViewBag.Items = items;
+                ViewBag.MyID = p.ID;
+                return View(db.profilepic_products.ToList()
+                    .Where(x => x.BusinessId == id).OrderByDescending(x => x.ID));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
 

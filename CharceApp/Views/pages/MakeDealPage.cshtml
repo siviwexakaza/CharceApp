@@ -1,0 +1,33 @@
+﻿@model CharceApp.Models.ProfilePic_Product
+
+@{
+    ViewBag.Title = "Make Deal";
+}
+
+<div class="ui divided items" style="margin-top:10px;margin-bottom:30px">
+    <div class="item">
+        <div class="image">
+            <img src="/ProfilePicFile/ProductPic/@Model.ID">
+        </div>
+        <div class="content">
+            @Model.Name
+
+            <div class="description">
+                <p>@Model.Price</p>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<form action="/logic/CreateDeal">
+    <input name="price" class="form-control" placeholder="Price..." />
+    <br />
+    <input type="hidden" name="prod_id" value="@Model.ID" />
+    <textarea rows="1" name="descr" class="form-control" placeholder="Description"></textarea>
+    <br />
+    <input type="submit" value="Save" class="btn btn-default" />
+
+
+</form>

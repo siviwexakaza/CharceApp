@@ -13,6 +13,45 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
+        public ActionResult CheckoutDetails(int orderid)
+        {
+            Order order = db.orders.ToList().Where(x => x.ID == orderid).FirstOrDefault();
+
+            return View(order);
+        }
+
+        [Authorize]
+        public ActionResult Feedback(string feedback)
+        {
+            ViewBag.Feedback = feedback;
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult MakeDealPage(int prod_id)
+        {
+            string myid = User.Identity.GetUserId();
+            ActiveProfile act = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+
+            if (act.AccountType == "Business")
+            {
+                ProfilePic_Product prod = db.profilepic_products.ToList()
+                .Where(x => x.ID == prod_id && x.BusinessId == act.ActiveProfileID).FirstOrDefault();
+
+                return View(prod);
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
+
+
+        }
+
+        [Authorize]
         public ActionResult BusinessProfile(int id)
         {
             BusinessAccount b = db.businessaccounts.ToList().Where(x => x.ID == id).FirstOrDefault();
@@ -61,33 +100,43 @@ namespace CharceApp.Controllers
             string myid = User.Identity.GetUserId();
             ActiveProfile act = db.activeprofiles.ToList()
                 .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
-            List<BusinessAccount> businesses = db.businessaccounts.ToList();
 
-            bool hasSearch = false;
-
-            if(search != null)
+            if (act.AccountType == "Business")
             {
-                hasSearch = true;
-                ViewBag.Search = search;
-                List<BusinessAccount> beez = new List<BusinessAccount>();
-
-                foreach(BusinessAccount b in businesses)
-                {
-                    if (b.BusinessName.ToLower().Contains(search.ToLower()))
-                    {
-                        beez.Add(b);
-                    }
-                }
-                ViewBag.hasSearch = hasSearch;
-                return View(beez);
-
+                return RedirectToAction("Feedback", "pages", new { feedback = "Please switch to personal account" });
             }
             else
             {
-                ViewBag.hasSearch = hasSearch;
-                return View(businesses);
+                List<BusinessAccount> businesses = db.businessaccounts.ToList();
+
+                bool hasSearch = false;
+
+                if (search != null)
+                {
+                    hasSearch = true;
+                    ViewBag.Search = search;
+                    List<BusinessAccount> beez = new List<BusinessAccount>();
+
+                    foreach (BusinessAccount b in businesses)
+                    {
+                        if (b.BusinessName.ToLower().Contains(search.ToLower()))
+                        {
+                            beez.Add(b);
+                        }
+                    }
+                    ViewBag.hasSearch = hasSearch;
+                    return View(beez);
+
+                }
+                else
+                {
+                    ViewBag.hasSearch = hasSearch;
+                    return View(businesses);
+
+                }
 
             }
+
 
         }
 
@@ -95,51 +144,61 @@ namespace CharceApp.Controllers
         public ActionResult Shops(string search)
         {
             string myid = User.Identity.GetUserId();
-            ActiveProfile act = db.activeprofiles.ToList().Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+            ActiveProfile act = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
 
-            List<Follow> fololws = db.follows.ToList().Where(x => x.PersonalAccID == act.ActiveProfileID).ToList();
-            List<BusinessAccount> businesses = db.businessaccounts.ToList();
-            bool hasSearch = false;
-            
-
-            if(search != null)
+            if (act.AccountType == "Business")
             {
-                hasSearch = true;
-                ViewBag.Search = search;
-                List<BusinessAccount> businesses_i_follow = new List<BusinessAccount>();
-                foreach (Follow f in fololws)
-                {
-                    foreach (BusinessAccount b in businesses)
-                    {
-                        if (f.BusinessID == b.ID && b.BusinessName.ToLower().Contains(search.ToLower()))
-                        {
-                            businesses_i_follow.Add(b);
-                        }
-                    }
-                }
-                ViewBag.hasSearch = hasSearch;
-
-                return View(businesses_i_follow);
+                return RedirectToAction("Feedback", "pages", new { feedback = "Please switch to personal account" });
             }
             else
             {
-                ViewBag.hasSearch = hasSearch;
-                List<BusinessAccount> businesses_i_follow = new List<BusinessAccount>();
+                List<Follow> fololws = db.follows.ToList().Where(x => x.PersonalAccID == act.ActiveProfileID).ToList();
+                List<BusinessAccount> businesses = db.businessaccounts.ToList();
+                bool hasSearch = false;
 
-                foreach (Follow f in fololws)
+
+                if (search != null)
                 {
-                    foreach (BusinessAccount b in businesses)
+                    hasSearch = true;
+                    ViewBag.Search = search;
+                    List<BusinessAccount> businesses_i_follow = new List<BusinessAccount>();
+                    foreach (Follow f in fololws)
                     {
-                        if (f.BusinessID == b.ID)
+                        foreach (BusinessAccount b in businesses)
                         {
-                            businesses_i_follow.Add(b);
+                            if (f.BusinessID == b.ID && b.BusinessName.ToLower().Contains(search.ToLower()))
+                            {
+                                businesses_i_follow.Add(b);
+                            }
                         }
                     }
+                    ViewBag.hasSearch = hasSearch;
+
+                    return View(businesses_i_follow);
+                }
+                else
+                {
+                    ViewBag.hasSearch = hasSearch;
+                    List<BusinessAccount> businesses_i_follow = new List<BusinessAccount>();
+
+                    foreach (Follow f in fololws)
+                    {
+                        foreach (BusinessAccount b in businesses)
+                        {
+                            if (f.BusinessID == b.ID)
+                            {
+                                businesses_i_follow.Add(b);
+                            }
+                        }
+                    }
+
+
+                    return View(businesses_i_follow);
                 }
 
-
-                return View(businesses_i_follow);
             }
+
 
             
         }
@@ -147,7 +206,50 @@ namespace CharceApp.Controllers
         [Authorize]
         public ActionResult Deals()
         {
-            return View();
+            string myid = User.Identity.GetUserId();
+            ActiveProfile act = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+            ViewBag.MyID = act.ActiveProfileID;
+
+            bool im_business = false;
+            if (act.AccountType == "Business")
+            {
+                im_business = true;
+                ViewBag.ImBusiness = im_business;
+
+                List<Deal> deals = db.deals.ToList()
+                    .Where(x => x.BusinessID == act.ActiveProfileID).ToList();
+                return View(deals);
+            }
+            else
+            {
+                ViewBag.ImBusiness = im_business;
+                List<Follow> follows = db.follows.ToList()
+                    .Where(x => x.PersonalAccID == act.ActiveProfileID).ToList();
+                List<int> business_ids = new List<int>();
+                List<Deal> alldeals = db.deals.ToList();
+                List<Deal> deals_i_follow = new List<Deal>();
+
+                foreach (Follow f in follows)
+                {
+                    business_ids.Add(f.BusinessID);
+                }
+
+                foreach(Deal d in alldeals)
+                {
+                    foreach(int id in business_ids)
+                    {
+                        if (id == d.BusinessID)
+                        {
+                            deals_i_follow.Add(d);
+                        }
+                    }
+                }
+                
+                return View(deals_i_follow.OrderByDescending(x=>x.ID));
+
+            }
+            
         }
 
         public ActionResult ProductDetails(int id)

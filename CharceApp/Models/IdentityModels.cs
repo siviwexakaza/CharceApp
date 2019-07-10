@@ -51,6 +51,9 @@ namespace CharceApp.Models
         public DbSet<ProductListOrder> productlistorders { get; set; }
         public DbSet<ChatScreen> chatscreens { get; set; }
         public DbSet<Follow> follows { get; set; }
+        public DbSet<Deal> deals { get; set; }
+
+        public DbSet<ShippingAddress> shippinaddresses { get; set; }
 
     }
 }

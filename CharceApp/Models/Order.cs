@@ -19,6 +19,6 @@ namespace CharceApp.Models
         public string PaymentMethod { get; set; }
         public double Price { get; set; }
         public double Total { get; set; }
-        public string BillingAddress { get; set; }
+        public string SendTo { get; set; }
     }
 }

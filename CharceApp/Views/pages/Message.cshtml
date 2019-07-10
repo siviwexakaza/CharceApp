@@ -28,7 +28,7 @@
 
 
 <div style="margin-bottom:150px">
-
+    
 
 
 @foreach (var item in Model) {
@@ -206,7 +206,22 @@
 
 <div id="msgScroll"></div>
 
-<div style="bottom:0;left:10px;position:fixed;width:100%">
+<form style="padding-bottom:1em;padding-right:1em" action="/logic/sendmessage" class="ui fluid action input" id="form-msg">
+    <input type="hidden" value="@ViewBag.RecieverID" name="RecieverID" style="visibility:hidden" />
+    <input type="hidden" value="0" name="orderid" style="visibility:hidden" />
+    <input type="text" name="txt" placeholder="Write message...">
+    <div class="ui button" id="btn-sendtxt" >Send</div>
+    
+</form>
+
+@*<input type="text" value="@ViewBag.RecieverID" name="RecieverID" style="visibility:hidden" />
+<input type="text" value="0" name="orderid" style="visibility:hidden" />*@
+
+
+
+
+
+@*<div style="bottom:0;left:10px;position:fixed;width:100%">
     <form action="/logic/sendmessage">
         <div class="ui form">
 
@@ -226,7 +241,7 @@
 
     </form>
 
-</div>
+</div>*@
 
 @section Scripts
 {
@@ -235,6 +250,10 @@
 		{
 		    $(window).load(function () {
 		        $("html, body").animate({ scrollTop: $(document).height() }, 10);
+		    });
+
+		    $("#btn-sendtxt").click(function () {
+		        $("#form-msg").submit();
 		    });
 		});
     </script>

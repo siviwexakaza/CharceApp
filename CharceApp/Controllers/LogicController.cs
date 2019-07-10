@@ -13,6 +13,49 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
+        public ActionResult CreateDeal(int prod_id,double price, string descr)
+        {
+            string myid = User.Identity.GetUserId();
+            ActiveProfile act = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+
+            ProfilePic_Product pro = db.profilepic_products.ToList()
+                .Where(x => x.ID == prod_id && x.BusinessId==act.ActiveProfileID).FirstOrDefault();
+
+            Deal deal = new Deal() {
+                BusinessID=act.ActiveProfileID, Description=descr,ProductID=prod_id,
+                Price=price, PreviousPrice=pro.Price
+            };
+
+            db.deals.Add(deal);
+            pro.Price = price;
+            db.SaveChanges();
+
+            return RedirectToAction("Deals", "Pages");
+        }
+
+        [Authorize]
+        public ActionResult DeleteDeal(int id)
+        {
+            string myid = User.Identity.GetUserId();
+            ActiveProfile act = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+            Deal deal = db.deals.ToList()
+                .Where(x => x.ID == id && x.BusinessID == act.ActiveProfileID).FirstOrDefault();
+
+            if(deal == null)
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            ProfilePic_Product product = db.profilepic_products.ToList()
+                .Where(x => x.ID == deal.ProductID).FirstOrDefault();
+            product.Price = deal.PreviousPrice;
+            db.deals.Remove(deal);
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [Authorize]
         public ActionResult ToggleFollow(int business_id)
         {
             BusinessAccount b = db.businessaccounts.ToList().Where(x => x.ID == business_id).FirstOrDefault();
@@ -542,7 +585,7 @@ namespace CharceApp.Controllers
 
 
         [Authorize]
-        public ActionResult createOrder()
+        public ActionResult createOrder(string paymentmethod, string shippingmethod, string shippingaddress)
         {
             string myId = User.Identity.GetUserId();
             PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
@@ -558,8 +601,10 @@ namespace CharceApp.Controllers
             foreach(Cart c in carts)
             {
                 Order order = new Order() {
-                    BillingAddress="21 Jump St",CartID=c.ID, BusinessID=c.BusinessID,
-                    Date=DateTime.Now,DeliverOrCollect="Collect",PaymentMethod="EFT",
+                    SendTo= shippingaddress,
+                    CartID=c.ID, BusinessID=c.BusinessID,
+                    Date=DateTime.Now,DeliverOrCollect= shippingmethod,
+                    PaymentMethod= paymentmethod,
                     PersonalAccID=active_profile.ActiveProfileID, Price=c.Price,
                     Product=c.Name,ProductID=c.ProfilePicProductID,Qauntity=c.Qty,
                     Total=c.Price * c.Qty

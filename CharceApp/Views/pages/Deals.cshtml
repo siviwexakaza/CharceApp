@@ -1,0 +1,164 @@
+﻿@model IEnumerable<CharceApp.Models.Deal>
+
+@{
+    ViewBag.Title = "Deals";
+}
+
+
+@{
+    if (ViewBag.ImBusiness)
+    {
+
+
+        <h3 style="margin-top:50px;font-weight:200;color:grey">My Deals</h3>
+        <div class="scrolling-wrapper">
+            @foreach (var item in Model)
+            {
+
+                using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+                {
+                    CharceApp.Models.BusinessAccount business = db.businessaccounts.ToList()
+                    .Where(x => x.ID == item.BusinessID).FirstOrDefault();
+                    CharceApp.Models.ProfilePic_Product product = db.profilepic_products.ToList()
+                    .Where(x => x.ID == item.ProductID).FirstOrDefault();
+
+
+
+                    <div class="card" style="margin-right:15px">
+
+                        <div class="ui divided items">
+                            <div class="item">
+                                <div class="image">
+                                    <img src="/ProfilePicFile/ProductPic/@product.ID">
+                                </div>
+                                <div class="content">
+                                    <a class="header">@product.Name</a>
+                                    <div class="meta">
+                                        <span class="cinema">Was R @item.PreviousPrice , Now R @item.Price</span>
+                                    </div>
+                                    <div class="description">
+                                        <p>@item.Description</p>
+                                    </div>
+                                    <div class="extra">
+                                        <a href="/pages/businessprofile/@business.ID" class="ui label">@business.BusinessName</a>
+                                            <a href="/logic/DeleteDeal/@item.ID" class="ui red label">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                                                }
+
+
+
+                                            }
+        </div>
+
+
+
+
+              }
+                                            else
+                                            {
+                                                <h3 style="margin-top:50px;font-weight:200;color:grey">Hot Deals</h3>
+                                                <div class="scrolling-wrapper">
+                                                    @foreach (var item in Model)
+                                                    {
+
+                                                        using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+                                                        {
+                                                            CharceApp.Models.BusinessAccount business = db.businessaccounts.ToList()
+                                                            .Where(x => x.ID == item.BusinessID).FirstOrDefault();
+                                                            CharceApp.Models.ProfilePic_Product product = db.profilepic_products.ToList()
+                                                            .Where(x => x.ID == item.ProductID).FirstOrDefault();
+
+                                                            bool inCart;
+                                                            CharceApp.Models.Cart cart = db.carts.ToList()
+                                                                .Where(x => x.PersonalAccountID == ViewBag.MyID && x.ProfilePicProductID == item.ProductID)
+                                                                .FirstOrDefault();
+
+                                                            if (cart != null)
+                                                            {
+                                                                inCart = true;
+                                                            }
+                                                            else
+                                                            {
+                                                                inCart = false;
+                                                            }
+
+
+                                                            <div class="card" style="margin-right:15px">
+
+                                                                <div class="ui divided items">
+                                                                    <div class="item">
+                                                                        <div class="image">
+                                                                            <img src="/ProfilePicFile/ProductPic/@product.ID">
+                                                                        </div>
+                                                                        <div class="content">
+                                                                            <a class="header">@product.Name</a>
+                                                                            <div class="meta">
+                                                                                <span class="cinema">Was R @item.PreviousPrice , Now R @item.Price</span>
+                                                                            </div>
+                                                                            <div class="description">
+                                                                                <p>@item.Description</p>
+                                                                            </div>
+                                                                            <div class="extra">
+                                                                                <a href="/pages/businessprofile/@business.ID" class="ui label">@business.BusinessName</a>
+                                                                                @{
+                                                                                    if (inCart)
+                                                                                    {
+                                                                                        <a href="/logic/togglecart?businessId=@business.ID&productId=@product.ID" class="ui red label">Remove From Cart</a>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <a href="/logic/togglecart?businessId=@business.ID&productId=@product.ID" class="ui green label">Add To Cart</a>
+                                                                                    }
+                                                                                }
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+
+
+                                                                                        }
+
+
+
+                                                                                    }
+                                                </div>
+                                                                                    }
+}
+
+
+<div class="bottom_menu">
+
+    <div class="ui equal width center aligned padded grid">
+
+        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+            <div class="column">
+                <a href="/home/index" style="color:white">Chat</a>
+
+            </div>
+            <div class="column">
+                <a href="/pages/shops" style="color:white">My Shops</a>
+
+            </div>
+            <div class="column deals-button">
+                <a href="/pages/deals" style="color:white">Deals</a>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

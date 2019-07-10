@@ -4,6 +4,30 @@
     ViewBag.Title = "BulkOrder";
 }
 
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                <i class=" left arrow icon"></i> @Html.ActionLink("Back", null, null, null, new { href = Request.UrlReferrer })
+                <a href="@Request.UrlReferrer" style="color:white">
+                   
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
 <h4 style="font-weight:300">Order No (#@ViewBag.OrderID)</h4>
 
 <table class="table">
@@ -18,6 +42,14 @@
 
     @foreach (var item in Model)
     {
+        string collect = item.DeliverOrCollect;
+        string pay = item.PaymentMethod;
+        string addr = item.BillingAddress;
+
+        ViewBag.Pay = pay;
+        ViewBag.Collect = collect;
+        ViewBag.Address = addr;
+        
 
         <tbody>
             <tr>
@@ -37,17 +69,17 @@
     <thead style="background-color:lightgray">
         <tr>
             <th>Payment Method</th>
-            <th></th>
             <th>Deliver/Collect</th>
+            <th>Shipping Address</th>
 
         </tr>
     </thead>
 
     <tbody>
         <tr>
-            <td>EFT</td>
-            <td></td>
-            <td>Collect</td>
+            <td>@ViewBag.Pay</td>
+            <td>@ViewBag.Collect</td>
+            <td>@ViewBag.Address</td>
 
         </tr>
 
@@ -251,5 +283,27 @@
 
 
 
+<div class="bottom_menu">
 
+    <div class="ui equal width center aligned padded grid">
+
+        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+            <div class="column">
+                <a href="/home/index" style="color:white">Chat</a>
+
+            </div>
+            <div class="column">
+                <a href="/pages/shops" style="color:white">My Shops</a>
+
+            </div>
+            <div class="column deals-button">
+                <a href="/pages/deals" style="color:white">Deals</a>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
 

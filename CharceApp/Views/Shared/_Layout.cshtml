@@ -11,7 +11,7 @@
 <body>
 
     @{
-        if (User.Identity.IsAuthenticated && ViewBag.Title != "Message")
+        if (User.Identity.IsAuthenticated && ViewBag.Title != "Message" && ViewBag.Title != "BulkOrder")
         {
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
@@ -27,6 +27,7 @@
                         <ul class="nav navbar-nav">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("My Accounts", "myaccounts", "pages")</li>
+                            <li>@Html.ActionLink("My Cart", "checkoutview", "pages")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>

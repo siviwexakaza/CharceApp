@@ -27,27 +27,10 @@
             <div class="content">
                 <div class="right floated meta">
 
-                    @{
-
-                        if (prods.Contains(item.ID))
-                        {
-                            <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="negative ui compact labeled icon button">
-                                <i class="cart icon"></i>
-                                Remove
-                            </a>
-
-                        }
-                        else
-                        {
-                            <a href="/Logic/ToggleCart?productId=@item.ID&businessId=@item.BusinessId" class="positive ui compact labeled icon button">
-                                <i class="cart icon"></i>
-                                Add
-                            </a>
-                        }
-
-                    }
-
-
+                    <a href="/pages/makedealpage?prod_id=@item.ID" class=" ui compact labeled icon button">
+                        <i class="cart icon"></i>
+                        Make Deal
+                    </a>
                 </div>
                 <img src="/ProfilePicFile/Business_Pic/@item.BusinessId" alt="Avatar" class="ui avatar image" /> <a href="#">@comName</a>
             </div>
@@ -73,9 +56,6 @@
                     </a>
                 </div>
 
-
-                @*<i class="comment icon"></i>
-                    3 commen*@
             </div>
             <div class="extra content">
                 <h6>Tax @item.Tax</h6>

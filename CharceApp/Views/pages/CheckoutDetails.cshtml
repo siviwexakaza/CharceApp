@@ -1,0 +1,114 @@
+﻿@model CharceApp.Models.Order
+
+@{
+    ViewBag.Title = "CheckoutDetails";
+}
+
+<h2>CheckoutDetails</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CartID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CartID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalAccID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonalAccID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qauntity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qauntity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliverOrCollect)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeliverOrCollect)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentMethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddress)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
