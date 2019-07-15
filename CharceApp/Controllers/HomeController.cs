@@ -15,6 +15,7 @@ namespace CharceApp.Controllers
         [Authorize]
         public ActionResult Index(string search)
         {
+            
             string myId = User.Identity.GetUserId();
             ActiveProfile active_profile = db.activeprofiles.ToList().
                 Where(x => x.ApplicationUserId == myId).FirstOrDefault();

@@ -12,6 +12,55 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [Authorize]
+        public ActionResult ProceedCheckout(string price)
+        {
+            ViewBag.Price = price;
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult EditShippingAddress(int id)
+        {
+            ViewBag.ID = id;
+            string myid = User.Identity.GetUserId();
+            PersonalAccount p = db.personalaccounts.ToList()
+                .Where(x => x.AppUserId == myid).FirstOrDefault();
+            ShippingAddress ship = db.shippinaddresses.ToList()
+                .Where(x => x.ID == id && x.PersonalAccID == p.ID).FirstOrDefault();
+
+            if (ship != null)
+            {
+                ViewBag.Name = ship.RecipientName;
+                ViewBag.Number = ship.RecipientNumber;
+                ViewBag.Street = ship.StreetAddress;
+                ViewBag.Building = ship.Building;
+                ViewBag.Suburb = ship.Suburb;
+                ViewBag.City = ship.City;
+                ViewBag.Province = ship.Province;
+                ViewBag.PostalCode = ship.PostalCode;
+
+                return View();
+            }
+            else {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+        }
+
+
+        [Authorize]
+        public ActionResult ShippingAddresses()
+        {
+            string myid = User.Identity.GetUserId();
+
+            PersonalAccount p = db.personalaccounts.ToList()
+                .Where(X => X.AppUserId == myid).FirstOrDefault();
+           List<ShippingAddress> shippings = db.shippinaddresses.ToList()
+                .Where(x => x.PersonalAccID == p.ID).ToList();
+            return View(shippings);
+        }
+
         [Authorize]
         public ActionResult CheckoutDetails(int orderid)
         {
@@ -310,6 +359,7 @@ namespace CharceApp.Controllers
             ViewBag.OrderID = listorder.ID;
             ViewBag.Status = listorder.Status;
             ViewBag.Total = total;
+            ViewBag.PersonalID = personal_id;
 
             return View(orders);
         }

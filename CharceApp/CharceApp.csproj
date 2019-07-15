@@ -323,6 +323,9 @@
     <Content Include="Views\pages\Feedback.cshtml" />
     <Content Include="Views\pages\Deals.cshtml" />
     <Content Include="Views\pages\CheckoutDetails.cshtml" />
+    <Content Include="Views\pages\ShippingAddresses.cshtml" />
+    <Content Include="Views\pages\EditShippingAddress.cshtml" />
+    <Content Include="Views\pages\ProceedCheckout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CharceApp.Models.ShippingAddress>
+
+@{
+    ViewBag.Title = "ShippingAddresses";
+}
+
+
+<br />
+
+<h2 style="font-weight:200">Add Shipping Address</h2>
+
+<form action="/logic/AddShippingAddress">
+
+    <input type="text" class="form-control" placeholder="Recipient Name" name="rName" />
+    <br />
+    <input type="text" class="form-control" placeholder="Recipient Number" name="rNum" />
+    <br />
+    <input type="text" class="form-control" placeholder="Street Address" name="sAdd" />
+    <br />
+    <input type="text" class="form-control" placeholder="Building (Optional)" name="building" />
+    <br />
+    <input type="text" class="form-control" placeholder="Suburb" name="suburb" />
+    <br />
+    <input type="text" class="form-control" placeholder="City" name="city" />
+    <br />
+    <input type="text" class="form-control" placeholder="Province" name="province" />
+    <br />
+    <input type="text" class="form-control" placeholder="Postal Code" name="pCode" />
+    <br />
+    <input type="submit" class="btn btn-primary" value="Save" />
+
+</form>
+
+<br />
+
+<h2 style="font-weight:200">Shipping Addresses</h2>
+
+
+
+@foreach (var item in Model)
+{
+    <h3 style="font-weight:400">@item.RecipientName</h3>
+
+    <h6><strong>Number: </strong> @item.RecipientNumber</h6>
+    <h6><strong>Street: </strong> @item.StreetAddress</h6>
+    <h6><strong>Building: </strong> @item.Building</h6>
+    <h6><strong>Suburb: </strong> @item.Suburb</h6>
+    <h6><strong>City: </strong> @item.City</h6>
+    <h6><strong>Province: </strong> @item.Province</h6>
+    <h6><strong>Postal Code: </strong> @item.PostalCode</h6>
+}

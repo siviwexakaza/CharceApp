@@ -13,6 +13,78 @@ namespace CharceApp.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
 
         [Authorize]
+        [HttpGet]
+        public JsonResult getShippingInfo(string name)
+        {
+            string myid = User.Identity.GetUserId();
+            PersonalAccount p = db.personalaccounts.ToList()
+                .Where(x => x.AppUserId == myid).FirstOrDefault();
+            ShippingAddress shipAdd = db.shippinaddresses.ToList()
+                .Where(x => x.RecipientName == name && x.PersonalAccID == p.ID)
+                .FirstOrDefault();
+
+            return Json(shipAdd, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public JsonResult myShippingAddresses()
+        {
+            string myid = User.Identity.GetUserId();
+            PersonalAccount per = db.personalaccounts.ToList()
+                .Where(x => x.AppUserId == myid).FirstOrDefault();
+            List<ShippingAddress> addresses = db.shippinaddresses.
+                ToList().Where(x => x.PersonalAccID == per.ID).ToList();
+
+            return Json(addresses, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult AddShippingAddress(string rName,string rNum,string sAdd,string building, 
+        string suburb, string city,string province, string pCode)
+        {
+            string myid = User.Identity.GetUserId();
+            PersonalAccount personal = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
+            ShippingAddress shipping = new ShippingAddress() {
+                RecipientName=rName, RecipientNumber=rNum, StreetAddress=sAdd,
+                Building=building, Suburb=suburb, City=city, Province=province,
+                PostalCode=pCode, PersonalAccID=personal.ID
+            };
+            db.shippinaddresses.Add(shipping);
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [Authorize]
+        public ActionResult EditShippingAddress(int id, string rName, string rNum, string sAdd, string building,
+        string suburb, string city, string province, string pCode)
+        {
+            string myid = User.Identity.GetUserId();
+            PersonalAccount personal = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
+
+            ShippingAddress ship = db.shippinaddresses.ToList()
+                .Where(x => x.ID == id && x.PersonalAccID == personal.ID).FirstOrDefault();
+
+            if(ship != null)
+            {
+                ship.RecipientName = rName;
+                ship.RecipientNumber = rNum;
+                ship.StreetAddress = sAdd;
+                ship.Building = building;
+                ship.Suburb = suburb;
+                ship.City = city;
+                ship.Province = province;
+                ship.PostalCode = pCode;
+                
+                db.SaveChanges();
+            }
+            
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+
+
+        [Authorize]
         public ActionResult CreateDeal(int prod_id,double price, string descr)
         {
             string myid = User.Identity.GetUserId();

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "ProceedCheckout";
+}
+
+<h2 style="font-weight:200">Checkout (@ViewBag.Price)</h2>
+
+<br />
+
+
+<form action="/logic/createorder" style="margin-bottom:100px">
+
+    <br />
+    <select name="paymentmethod" class="form-control" id="paymentmethod">
+        <option>Payment Method</option>
+        <option>Cash</option>
+        <option>EFT</option>
+
+    </select>
+    <br />
+    <select name="shippingmethod" class="form-control" id="collectdeliver">
+        <option>Collect / Deliver</option>
+        <option>Collect</option>
+        <option>Deliver</option>
+
+    </select>
+    <br />
+    <div id="shippingaddressView" style="visibility:hidden">
+        <select name="shippingaddress" class="form-control" id="shippingaddress">
+            <option>Ship to...</option>
+
+
+        </select>
+        <div id="shippingInfo"></div>
+        <h6>
+            <a href="/pages/ShippingAddresses">Add New Address</a>
+        </h6>
+    </div>
+
+
+    <br />
+
+    <input type="submit" class="btn btn-primary disabled" value="Checkout!" id="btn-submit" />
+
+</form>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+		$(document).ready(function ()
+		{
+		    $("#collectdeliver").on('change', function () {
+
+
+		        if ($(this).val() === "Deliver") {
+		            $("#shippingaddressView").css('visibility', 'visible');
+
+		            $.get('/logic/myShippingAddresses', null, function (d) {
+
+		                for (var x = 0; x < d.length;x++) {
+		                    $("#shippingaddress").append('<option>'+d[x].RecipientName+'</option>');
+		                }
+		            });
+
+
+
+		        } else {
+		            $("#shippingaddressView").css('visibility', 'hidden');
+		            $("#shippingaddress").val() = "N/A";
+
+		        }
+		    });
+
+		    $("#paymentmethod").on('change', function () {
+		        if ($(this).val() !== "Payment Method") {
+		            $("#btn-submit").removeClass('disabled');
+		        } else {
+		            $("#btn-submit").addClass('disabled');
+		        }
+		    });
+
+
+		    $("#shippingaddress").on('change', function () {
+		        if ($(this).val() !== "Ship to...") {
+
+		            $.get('/logic/getShippingInfo?name=' + $(this).val() + '', null, function (d) {
+		                $("#shippingInfo").html(null);
+		                $("#shippingInfo").append(
+                            '<h6>' + d.StreetAddress+","+ d.Building +'<h6>'
+                            + '<h6>' + d.City + "," + d.PostalCode + '<h6>'
+                            + '<h6><a href="/pages/EditShippingAddress/'+d.ID+'">Edit Address</a></h6>'
+                            );
+		            });
+
+		        }
+		    });
+
+
+
+
+		});
+    </script>
+}
+

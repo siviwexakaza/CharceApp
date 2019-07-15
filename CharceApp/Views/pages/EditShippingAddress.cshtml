@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "EditShippingAddress";
+}
+
+<br />
+
+<h2 style="font-weight:200">Edit Shipping Address</h2>
+
+<form action="/logic/EditShippingAddress">
+    <input type="text" class="form-control" placeholder="Recipient Name" name="id" style="visibility:hidden"  value="@ViewBag.ID"/>
+
+    <input type="text" class="form-control" placeholder="Recipient Name" name="rName" />
+    <br />
+    <input type="text" class="form-control" placeholder="Recipient Number" name="rNum" />
+    <br />
+    <input type="text" class="form-control" placeholder="Street Address" name="sAdd" />
+    <br />
+    <input type="text" class="form-control" placeholder="Building (Optional)" name="building" />
+    <br />
+    <input type="text" class="form-control" placeholder="Suburb" name="suburb" />
+    <br />
+    <input type="text" class="form-control" placeholder="City" name="city" />
+    <br />
+    <input type="text" class="form-control" placeholder="Province" name="province" />
+    <br />
+    <input type="text" class="form-control" placeholder="Postal Code" name="pCode" />
+    <br />
+    <input type="submit" class="btn btn-primary" value="Save" />
+
+</form>
+

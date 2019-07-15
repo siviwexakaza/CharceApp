@@ -44,7 +44,7 @@
     {
         string collect = item.DeliverOrCollect;
         string pay = item.PaymentMethod;
-        string addr = item.BillingAddress;
+        string addr = item.SendTo;
 
         ViewBag.Pay = pay;
         ViewBag.Collect = collect;
@@ -70,7 +70,7 @@
         <tr>
             <th>Payment Method</th>
             <th>Deliver/Collect</th>
-            <th>Shipping Address</th>
+            
 
         </tr>
     </thead>
@@ -79,7 +79,6 @@
         <tr>
             <td>@ViewBag.Pay</td>
             <td>@ViewBag.Collect</td>
-            <td>@ViewBag.Address</td>
 
         </tr>
 
@@ -107,9 +106,32 @@
 
     </tbody>
 
-
-
 </table>
+<br />
+@{
+    using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+    {
+
+        CharceApp.Models.ShippingAddress adrr = db.shippinaddresses.ToList()
+            .Where(x => x.RecipientName == ViewBag.Address && x.PersonalAccID == ViewBag.PersonalID)
+            .FirstOrDefault();
+
+        if (ViewBag.Collect == "Deliver")
+        {
+            <h4 style="font-weight:300">Shipping Information</h4>
+            <h6><strong>Name: </strong>@adrr.RecipientName</h6>
+            <h6><strong>Number: </strong>@adrr.RecipientNumber</h6>
+            <h6>@adrr.StreetAddress</h6>
+            <h6>@adrr.Building</h6>
+            <h6>@adrr.Suburb , @adrr.City @adrr.PostalCode</h6>
+            <h6>@adrr.Province</h6>
+        }
+    }
+
+
+}
+
+
 
 @{
 

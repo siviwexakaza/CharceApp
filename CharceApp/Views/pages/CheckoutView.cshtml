@@ -52,35 +52,6 @@
 
     }
     </div>
-<br />
-
-
-<form action="/logic/createorder" style="margin-bottom:100px">
-
-    <br />
-    <select name="paymentmethod" class="form-control" id="paymentmethod">
-        <option>Payment Method</option>
-        <option>Cash</option>
-        <option>EFT</option>
-
-    </select>
-    <br />
-    <select name="shippingmethod" class="form-control" id="collectdeliver">
-        <option>Collect / Deliver</option>
-        <option>Collect</option>
-        <option>Deliver</option>
-
-    </select>
-    <br />
-    <input type="text" class="form-control" name="shippingaddress" placeholder="Shipping address" id="shippingaddress" style="visibility:hidden" />
-    
-    <br />
-
-    <input type="submit" class="btn btn-primary disabled" value="Checkout!" id="btn-submit" />
-
-</form>
-
-
 <div class="bottom_menu">
 
     <div class="ui equal width center aligned padded grid">
@@ -88,7 +59,7 @@
 
             <div class="column deals-button">
                 <p>
-                    <a href="#" style="text-decoration:none;color:white">Checkout(R @ViewBag.Balance)</a>
+                    <a href="/pages/proceedcheckout?price=@ViewBag.Balance" style="text-decoration:none;color:white">Proceed(R @ViewBag.Balance)</a>
                 </p>
 
 
@@ -99,36 +70,4 @@
     </div>
 
 </div>
-@section Scripts
-{
-    <script type="text/javascript">
-		$(document).ready(function ()
-		{
-		    $("#collectdeliver").on('change', function () {
-		        
-
-		        if ($(this).val()==="Deliver") {
-		            $("#shippingaddress").css('visibility', 'visible');
-
-		        } else {
-		            $("#shippingaddress").css('visibility', 'hidden');
-		            $("#shippingaddress").val() = "N/A";
-
-		        }
-		    });
-
-		    $("#paymentmethod").on('change', function () {
-		        if ($(this).val() !== "Payment Method") {
-		            $("#btn-submit").removeClass('disabled');
-		        } else {
-		            $("#btn-submit").addClass('disabled');
-		        }
-		    });
-
-		    
-
-		    
-		});
-    </script>
-}
 
