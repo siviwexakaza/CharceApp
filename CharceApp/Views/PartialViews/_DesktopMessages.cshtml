@@ -1,0 +1,118 @@
+﻿@model IEnumerable<CharceApp.Models.Message>
+
+
+
+
+<div class="row heading">
+
+    @{
+        if (ViewBag.AccountType == "Business")
+        {
+            @*<div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+                <div class="heading-avatar-icon">
+                    <img src="/profilepicfile/index/@ViewBag.RecieverID">
+                </div>
+            </div>*@
+        }
+        else
+        {
+            @*<div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+                <div class="heading-avatar-icon">
+                    <img src="/profilepicfile/Business_Pic/@ViewBag.RecieverID">
+                </div>
+            </div>*@
+        }
+    }
+
+    
+    <div class="col-sm-8 col-xs-7 heading-name">
+        <a class="heading-name-meta">
+            @ViewBag.RecieverName
+        </a>
+        <span class="heading-online">Online</span>
+    </div>
+    <div class="col-sm-1 col-xs-1  heading-dot pull-right">
+        <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+    </div>
+</div>
+<div class="row message" id="conversation" >
+    
+
+    @foreach (var item in Model)
+    {
+
+        if (item.SenderID == ViewBag.AccountID)
+        {
+            <p class="from-me">@item.Text</p>
+
+            @*<div class="row message-body">
+                <div class="col-sm-12 message-main-sender">
+                    <div class="sender">
+                        <div class="message-text">
+                            @item.Text
+                        </div>
+                        <span class="message-time pull-right">
+                            Sun
+                        </span>
+                    </div>
+                </div>
+            </div>*@
+        }
+        else
+        {
+            <p class="from-them">@item.Text</p>
+            @*<div class="row message-body">
+                <div class="col-sm-12 message-main-receiver">
+                    <div class="receiver">
+                        <div class="message-text">
+                            @item.Text
+                        </div>
+                        <span class="message-time pull-right">
+                            Sun
+                        </span>
+                    </div>
+                </div>
+            </div>*@
+        }
+
+    }
+
+
+</div>
+<div class="row reply">
+    <div class="col-sm-1 col-xs-1 reply-emojis">
+        <i class="fa fa-smile-o fa-2x"></i>
+    </div>
+    <div class="col-sm-9 col-xs-9 reply-main">
+        <textarea class="form-control" rows="1" id="comment"></textarea>
+    </div>
+    <div class="col-sm-1 col-xs-1 reply-recording">
+        <i class="fa fa-microphone fa-2x" aria-hidden="true"></i>
+    </div>
+    <div class="col-sm-1 col-xs-1 reply-send">
+        <i class="fa fa-send fa-2x" aria-hidden="true"></i>
+    
+    </div>
+    <div class="myID">
+        <input value="@ViewBag.AccountID" type="hidden" />
+    </div>
+    <div class="recieverID">
+        <input value="@ViewBag.RecieverID" type="hidden" />
+    </div>
+</div>
+
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+
+
+            
+        });
+    </script>
+}

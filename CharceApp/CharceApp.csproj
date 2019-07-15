@@ -173,6 +173,7 @@
     <Compile Include="Controllers\LogicController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
+    <Compile Include="Controllers\PartialViewsController.cs" />
     <Compile Include="Controllers\ProfilePicFileController.cs" />
     <Compile Include="Controllers\ProfilePicsBusinessController.cs" />
     <Compile Include="Controllers\ProfilePicsController.cs" />
@@ -224,6 +225,7 @@
     <Content Include="Content\alert.wav" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\desktopstyle.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\semantic.min.css" />
     <Content Include="Content\style.css" />
@@ -326,6 +328,7 @@
     <Content Include="Views\pages\ShippingAddresses.cshtml" />
     <Content Include="Views\pages\EditShippingAddress.cshtml" />
     <Content Include="Views\pages\ProceedCheckout.cshtml" />
+    <Content Include="Views\PartialViews\_DesktopMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

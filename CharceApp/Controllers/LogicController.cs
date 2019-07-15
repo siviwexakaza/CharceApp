@@ -12,6 +12,379 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+
+        public void DesktopSendMessage(int RecieverID, string txt, int orderid)
+        {
+            string myUsername = User.Identity.GetUserName();
+            string myId = User.Identity.GetUserId();
+            PersonalAccount pa = db.personalaccounts.ToList().Where(x => x.AppUserId == myId).FirstOrDefault();
+            ActiveProfile active_profile = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myId).FirstOrDefault();
+            int active_id = active_profile.ActiveProfileID;
+
+            Conversation convo = db.conversations.ToList().
+                Where(x => (x.FirstPersonID == active_id || x.SecondPersonID == active_id) && (x.FirstPersonID == RecieverID || x.SecondPersonID == RecieverID))
+                .FirstOrDefault();
+
+
+
+            if (active_profile.AccountType == "Business") //meaning i am the business
+            {
+                BusinessAccount ba = db.businessaccounts.ToList()
+                    .Where(x => x.PersonalAccountID == pa.ID && x.ID == active_profile.ActiveProfileID)
+                    .FirstOrDefault();
+
+                //If i am the business, then the other person must be the client/customer....
+                PersonalAccount customer = db.personalaccounts.ToList()
+                    .Where(x => x.ID == RecieverID).FirstOrDefault();
+                //              ^^^^^^Customer^^^^^
+
+                ChatScreen chat = db.chatscreens.ToList()
+                    .Where(x => x.AccountType == "Personal" && x.AccountID == customer.ID).FirstOrDefault();
+                if (chat != null)
+                {
+                    chat.hasMessage = true;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    ChatScreen c = new ChatScreen()
+                    {
+                        AccountType = "Personal",
+                        AccountID = customer.ID,
+                        hasMessage = true
+                    };
+                    db.chatscreens.Add(c);
+                    db.SaveChanges();
+                }
+
+                if (convo == null) //first time message
+                {
+                    if (txt.Substring(2, 1) == ":")
+                    {
+                        Conversation conversation = new Conversation()
+                        {
+                            Date = DateTime.Now,
+                            FirstPersonDispName = ba.BusinessName,
+                            FirstPersonID = ba.ID,
+                            SecondPersonDispName = customer.Names + " " + customer.Surname,
+                            SecondPersonID = customer.ID,
+                            LastMessage = txt.Substring(5),
+                            LastSenderID = ba.ID,
+                            Seen = false
+                        };
+                        db.conversations.Add(conversation);
+                        db.SaveChanges();
+
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = conversation.ID,
+                            SenderDispName = ba.BusinessName,
+                            SenderID = ba.ID,
+                            Seen = false,
+                            Text = txt,
+                            isOrder = false,
+                            OrderID = 0
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+                    }
+                    else
+                    {
+                        Conversation conversation = new Conversation()
+                        {
+                            Date = DateTime.Now,
+                            FirstPersonDispName = ba.BusinessName,
+                            FirstPersonID = ba.ID,
+                            SecondPersonDispName = customer.Names + " " + customer.Surname,
+                            SecondPersonID = customer.ID,
+                            LastMessage = txt,
+                            LastSenderID = ba.ID,
+                            Seen = false
+                        };
+                        db.conversations.Add(conversation);
+                        db.SaveChanges();
+
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = conversation.ID,
+                            SenderDispName = ba.BusinessName,
+                            SenderID = ba.ID,
+                            Seen = false,
+                            Text = txt,
+                            isOrder = false,
+                            OrderID = 0
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+                    }
+
+
+
+
+                }
+                else //meaning this is not the first text
+                {
+                    if (txt.Substring(2, 1) == ":")
+                    {
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = convo.ID,
+                            SenderDispName = ba.BusinessName,
+                            SenderID = ba.ID,
+                            Seen = false,
+                            Text = txt,
+                            isOrder = false,
+                            OrderID = 0
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+                        convo.LastSenderID = active_id;
+                        convo.LastMessage = txt.Substring(5);
+                        convo.Date = DateTime.Now;
+                        convo.Seen = false;
+                        db.SaveChanges();
+
+                    }
+                    else
+                    {
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = convo.ID,
+                            SenderDispName = ba.BusinessName,
+                            SenderID = ba.ID,
+                            Seen = false,
+                            Text = txt,
+                            isOrder = false,
+                            OrderID = 0
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+                        convo.LastSenderID = active_id;
+                        convo.LastMessage = txt;
+                        convo.Date = DateTime.Now;
+                        convo.Seen = false;
+                        db.SaveChanges();
+
+                    }
+
+
+
+                }
+
+            }
+            else // I am the customer (object pa ^^^^), sending a message to the business
+            {
+
+                BusinessAccount company = db.businessaccounts.ToList()
+                    .Where(x => x.ID == RecieverID).FirstOrDefault();
+
+                ChatScreen chat = db.chatscreens.ToList()
+                    .Where(x => x.AccountType == "Business" && x.AccountID == company.ID).FirstOrDefault();
+                if (chat != null)
+                {
+                    chat.hasMessage = true;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    ChatScreen c = new ChatScreen()
+                    {
+                        AccountType = "Business",
+                        AccountID = company.ID,
+                        hasMessage = true
+                    };
+                    db.chatscreens.Add(c);
+                    db.SaveChanges();
+                }
+
+
+                if (convo == null) //first time message
+                {
+
+                    if (orderid != 0)
+                    {
+                        Order order = db.orders.ToList().Where(x => x.ID == orderid).FirstOrDefault();
+
+                        Conversation conversation = new Conversation()
+                        {
+                            Date = DateTime.Now,
+                            FirstPersonDispName = pa.Names + " " + pa.Surname,
+                            FirstPersonID = pa.ID,
+                            SecondPersonDispName = company.BusinessName,
+                            SecondPersonID = company.ID,
+                            LastMessage = pa.Names + " " + pa.Surname + " " + "placed an order for" + order.Qauntity + " " + order.Product,
+                            LastSenderID = pa.ID,
+                            Seen = false
+                        };
+                        db.conversations.Add(conversation);
+                        db.SaveChanges();
+
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = conversation.ID,
+                            SenderDispName = pa.Names + " " + pa.Surname,
+                            SenderID = pa.ID,
+                            Seen = false,
+                            Text = conversation.LastMessage
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+
+                    }
+                    else
+                    {
+                        Conversation conversation = new Conversation()
+                        {
+                            Date = DateTime.Now,
+                            FirstPersonDispName = pa.Names + " " + pa.Surname,
+                            FirstPersonID = pa.ID,
+                            SecondPersonDispName = company.BusinessName,
+                            SecondPersonID = company.ID,
+                            LastMessage = txt,
+                            LastSenderID = pa.ID,
+                            Seen = false
+                        };
+                        db.conversations.Add(conversation);
+                        db.SaveChanges();
+
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = conversation.ID,
+                            SenderDispName = pa.Names + " " + pa.Surname,
+                            SenderID = pa.ID,
+                            Seen = false,
+                            Text = txt
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+
+                    }
+
+
+
+                }
+                else //meaning this is not the first text
+                {
+
+                    if (orderid != 0)
+                    {
+                        Order order = db.orders.ToList().Where(x => x.ID == orderid).FirstOrDefault();
+
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = convo.ID,
+                            SenderDispName = pa.Names + " " + pa.Surname,
+                            SenderID = pa.ID,
+                            Seen = false,
+                            Text = pa.Names + " " + pa.Surname + " " + "placed an order for" + order.Qauntity + " " + order.Product
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+
+                    }
+                    else
+                    {
+                        Message msg = new Message()
+                        {
+                            Date = DateTime.Now,
+                            ConversationID = convo.ID,
+                            SenderDispName = pa.Names + " " + pa.Surname,
+                            SenderID = pa.ID,
+                            Seen = false,
+                            Text = txt
+                        };
+                        db.messages.Add(msg);
+                        db.SaveChanges();
+
+                        NewMessageNotification nmn = new NewMessageNotification()
+                        {
+                            RecieverID = RecieverID
+                        };
+                        db.newmessagenotifications.Add(nmn);
+                        db.SaveChanges();
+
+                        convo.LastSenderID = active_id;
+                        convo.LastMessage = txt;
+                        convo.Date = DateTime.Now;
+                        convo.Seen = false;
+                        db.SaveChanges();
+
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+
+
         [Authorize]
         [HttpGet]
         public JsonResult getShippingInfo(string name)
