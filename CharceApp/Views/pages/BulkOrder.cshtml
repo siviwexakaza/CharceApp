@@ -28,7 +28,7 @@
 
 
 
-<h4 style="font-weight:300">Order No (#@ViewBag.OrderID)</h4>
+<h4 style="font-weight:300">Order No (#@ViewBag.OrderID) - @ViewBag.CustomerName</h4>
 
 <table class="table">
     <thead style="background-color:lightgray">
@@ -303,29 +303,34 @@
 }
 
 
+@{
+    if (Request.Browser.IsMobileDevice)
+    {
+        <div class="bottom_menu">
 
+            <div class="ui equal width center aligned padded grid">
 
-<div class="bottom_menu">
+                <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
+                    <div class="column">
+                        <a href="/home/index" style="color:white">Chat</a>
 
-    <div class="ui equal width center aligned padded grid">
+                    </div>
+                    <div class="column">
+                        <a href="/pages/shops" style="color:white">My Shops</a>
 
-        <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
-            <div class="column">
-                <a href="/home/index" style="color:white">Chat</a>
+                    </div>
+                    <div class="column deals-button">
+                        <a href="/pages/deals" style="color:white">Deals</a>
+
+                    </div>
+                </div>
+
 
             </div>
-            <div class="column">
-                <a href="/pages/shops" style="color:white">My Shops</a>
 
-            </div>
-            <div class="column deals-button">
-                <a href="/pages/deals" style="color:white">Deals</a>
-
-            </div>
         </div>
+    }
+}
 
 
-    </div>
-
-</div>
 

@@ -31,7 +31,17 @@
                     <div class="row heading">
                         <div class="col-sm-3 col-xs-3 heading-avatar">
                             <div class="heading-avatar-icon">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                                @{
+                                    if (ViewBag.isPersonalAccount)
+                                    {
+                                        <img src="/profilepicfile/index/@ViewBag.AccountID">
+                                    }
+                                    else
+                                    {
+                                        <img src="/profilepicfile/Business_Pic/@ViewBag.AccountID">
+                                    }
+                                }
+                                
                             </div>
                             
                         </div>
@@ -81,9 +91,19 @@
                                             <div class="col-sm-9 col-xs-9 sideBar-main">
                                                 <div class="row">
                                                     <div class="col-sm-8 col-xs-8 sideBar-name">
-                                                        <span class="name-meta">
-                                                            @item.SecondPersonDispName
-                                                        </span>
+                                                        <a href="#" class="name-meta">
+                                                            @{
+                                                                if (item.Seen)
+                                                                {
+                                                                    @item.SecondPersonDispName
+                                                                }
+                                                                else
+                                                                {
+                                                                    <b>@item.SecondPersonDispName</b>
+                                                                }
+                                                            }
+                                                            
+                                                        </a>
                                                         <br />
                                                         <span>
                                                             @item.LastMessage
@@ -91,7 +111,7 @@
                                                     </div>
                                                     <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
                                                         <span class="time-meta pull-right">
-                                                            18:20
+                                                           @item.Date.TimeOfDay.ToString().Substring(0, 5)
                                                         </span>
                                                     </div>
                                                 </div>
@@ -120,9 +140,22 @@
                                             <div class="col-sm-9 col-xs-9 sideBar-main">
                                                 <div class="row">
                                                     <div class="col-sm-8 col-xs-8 sideBar-name">
-                                                        <span class="name-meta">
-                                                            @item.FirstPersonDispName
-                                                        </span>
+                                                        <a href="#" class="name-meta">
+
+                                                            @{
+                                                                if (item.Seen)
+                                                                {
+                                                                    @item.FirstPersonDispName
+                                                                }
+                                                                else
+                                                                {
+                                                                    <b>@item.FirstPersonDispName</b>
+                                                                }
+                                                            }
+
+
+                                                            
+                                                        </a>
                                                         <br />
                                                         <span>
                                                             @item.LastMessage
@@ -130,8 +163,7 @@
                                                     </div>
                                                     <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
                                                         <span class="time-meta pull-right">
-                                                            18:20
-                                                        </span>
+                                                            @item.Date.TimeOfDay.ToString().Substring(0, 5)                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,9 +188,22 @@
                                         <div class="col-sm-9 col-xs-9 sideBar-main">
                                             <div class="row">
                                                 <div class="col-sm-8 col-xs-8 sideBar-name">
-                                                    <span class="name-meta">
-                                                        @item.SecondPersonDispName
-                                                    </span>
+                                                    <a href="#" class="name-meta">
+
+                                                        @{
+                                                            if (item.Seen)
+                                                            {
+                                                                @item.SecondPersonDispName
+                                                            }
+                                                            else
+                                                            {
+                                                                <b>@item.SecondPersonDispName</b>
+                                                            }
+                                                        }
+
+
+                                                        
+                                                    </a>
                                                     <br />
                                                     <span>
                                                         @item.LastMessage
@@ -166,8 +211,7 @@
                                                 </div>
                                                 <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
                                                     <span class="time-meta pull-right">
-                                                        18:20
-                                                    </span>
+                                                        @item.Date.TimeOfDay.ToString().Substring(0, 5)                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -189,9 +233,19 @@
                                         <div class="col-sm-9 col-xs-9 sideBar-main">
                                             <div class="row">
                                                 <div class="col-sm-8 col-xs-8 sideBar-name">
-                                                    <span class="name-meta">
-                                                        @item.FirstPersonDispName
-                                                    </span>
+                                                    <a href="#" class="name-meta">
+
+                                                        @{
+                                                            if (item.Seen)
+                                                            {
+                                                                @item.FirstPersonDispName
+                                                            }
+                                                            else
+                                                            {
+                                                                <b>@item.FirstPersonDispName</b>
+                                                            }
+                                                        } 
+                                                    </a>
                                                     <br />
                                                     <span>
                                                         @item.LastMessage
@@ -199,7 +253,7 @@
                                                 </div>
                                                 <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
                                                     <span class="time-meta pull-right">
-                                                        18:20
+                                                        @item.Date.TimeOfDay.ToString().Substring(0, 5)
                                                     </span>
                                                 </div>
                                             </div>
@@ -234,13 +288,43 @@
 
     <script>
 
+
+        setInterval(function () {
+            reload_page();
+        }, 3000);
+
+        function reload_page() {
+
+            $.get('/logic/CheckNewMessage', null, function (data) {
+                if (data.reload) {
+                    $.get('/logic/SeenMessage', null, function () {
+                        var audio = {};
+                        audio["alert"] = new Audio();
+                        audio["alert"].src = "/Content/alert.wav"
+                        audio["alert"].addEventListener('load', function () {
+                            audio["alert"].play();
+                        });
+                        window.location.reload(true);
+                    });
+                    //alert("New Message");
+                }
+            });
+        }
+
+
         $('.sideBar-body').click(function () {
            // alert($(this).find('input').val());
             $('.conversation').html(null);
             $.get('/partialviews/_DesktopMessages?convo_id=' + $(this).find('input').val() + '', null, function (d) {
-                
+
                 $(".conversation").html(d);
+
+                //$(".conversation").scrollTop($(".conversation").prop("scrollHeight"));
+
+                $('#conversation').scrollTop($('#conversation')[0].scrollHeight - $('#conversation')[0].clientHeight);
+
                 var convoid = $(this).find('input').val();
+                
                 $('.reply-send').click(function () {
                     var myID = $('.myID').find('input').val();
                     var recieverID = $('.recieverID').find('input').val();
@@ -248,15 +332,18 @@
                    // alert("my id: " + myID + " reciever id " + recieverID + " message:" + text);
 
                     $.post('/logic/desktopsendmessage?RecieverID=' + recieverID + '&txt=' + text + '&orderid=' + 0 + '', null, function (res) {
+                        $('#comment').val('');
+                        $('#conversation').append('<p class="from-me">' + text + '</p>');
+                        $('#conversation').scrollTop($('#conversation')[0].scrollHeight - $('#conversation')[0].clientHeight);
 
                     });
 
                 });
             });
-            
+
         });
 
-        
+
 
             $('.contact').click(function () {
                 $("#chatprompt").html(null);

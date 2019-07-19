@@ -43,7 +43,55 @@
 
         if (item.SenderID == ViewBag.AccountID)
         {
-            <p class="from-me">@item.Text</p>
+            if (item.isOrder)
+            {
+                if (ViewBag.AccountType == "Business")
+                {
+                    <a href="/pages/BulkOrder?business_id=@ViewBag.AccountID&personal_id=@ViewBag.RecieverID&time=@item.Date.TimeOfDay.ToString().Substring(0, 5)">
+                        <p class="from-them" style="margin-left:10px">@item.Text</p>
+                    </a>
+
+
+
+                }
+                else
+                {
+                    <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.AccountID&time=@item.Date.TimeOfDay.ToString().Substring(0, 5)">
+                        <p class="from-them" style="margin-left:10px">@item.Text</p>
+                    </a>
+                }
+            }
+            else
+            {
+                <p class="from-me" style="margin-right:10px">
+
+                    @{
+                        if (item.Text.Substring(2, 1) == ":")
+                        {
+                            if (ViewBag.AccountType == "Business")
+                            {
+                                <a style="color:black" href="/pages/BulkOrder?business_id=@ViewBag.AccountID&personal_id=@ViewBag.RecieverID&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                            }
+                            else
+                            {
+                                <a style="color:black" href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.AccountID&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                            }
+
+                        }
+                        else
+                        {
+                            <text>@item.Text</text>
+                        }
+
+                    }
+    
+    
+    
+    
+    </p>
+            }
+
+
 
             @*<div class="row message-body">
                 <div class="col-sm-12 message-main-sender">
@@ -60,7 +108,51 @@
         }
         else
         {
-            <p class="from-them">@item.Text</p>
+
+            if (item.isOrder)
+            {
+                if (ViewBag.AccountType == "Business")
+                {
+                    <a href="/pages/BulkOrder?business_id=@ViewBag.AccountID&personal_id=@ViewBag.RecieverID&time=@item.Date.TimeOfDay.ToString().Substring(0, 5)">
+                        <p class="from-them" style="margin-left:10px">@item.Text</p>
+                    </a>
+
+
+
+                }
+                else
+                {
+                    <a href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.AccountID&time=@item.Date.TimeOfDay.ToString().Substring(0, 5)">
+                        <p class="from-them" style="margin-left:10px">@item.Text</p>
+                    </a>
+                }
+            }
+            else
+            {
+                <p class="from-them" style="margin-left:10px">
+                    @{
+                        if (item.Text.Substring(2, 1) == ":")
+                        {
+                            if (ViewBag.AccountType == "Business")
+                            {
+                                <a style="color:black" href="/pages/BulkOrder?business_id=@ViewBag.AccountID&personal_id=@ViewBag.RecieverID&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                            }
+                            else
+                            {
+                                <a style="color:black" href="/pages/BulkOrder?business_id=@ViewBag.RecieverID&personal_id=@ViewBag.AccountID&time=@item.Text.Substring(0,5)"> @item.Text.Substring(5) </a>
+                            }
+                        }
+                        else
+                        {
+                            <text>@item.Text</text>
+                        }
+
+                    }
+                </p>
+            }
+
+
+            
             @*<div class="row message-body">
                 <div class="col-sm-12 message-main-receiver">
                     <div class="receiver">

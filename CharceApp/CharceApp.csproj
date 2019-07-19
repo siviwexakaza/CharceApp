@@ -329,6 +329,7 @@
     <Content Include="Views\pages\EditShippingAddress.cshtml" />
     <Content Include="Views\pages\ProceedCheckout.cshtml" />
     <Content Include="Views\PartialViews\_DesktopMessages.cshtml" />
+    <Content Include="Views\pages\DesktopBulkOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

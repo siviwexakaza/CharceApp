@@ -12,6 +12,13 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        public void mark_as_read(int convo_id)
+        {
+            Conversation conv = db.conversations.ToList().Where(x => x.ID == convo_id).FirstOrDefault();
+            conv.Seen = true;
+            db.SaveChanges();
+        }
+
 
         public void DesktopSendMessage(int RecieverID, string txt, int orderid)
         {

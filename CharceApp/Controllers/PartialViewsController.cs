@@ -11,6 +11,11 @@ namespace CharceApp.Controllers
     public class PartialViewsController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+
+        public ActionResult _MyProducts()
+        {
+            return null;
+        }
         public ActionResult _DesktopMessages(int convo_id)
         {
             string myid = User.Identity.GetUserId();
@@ -19,6 +24,12 @@ namespace CharceApp.Controllers
             
             ViewBag.AccountID = act.ActiveProfileID;
             Conversation convo = db.conversations.ToList().Where(x => x.ID == convo_id).FirstOrDefault();
+
+            if (convo.LastSenderID == act.ActiveProfileID)
+            {
+                convo.Seen = true;
+                db.SaveChanges();
+            }
             if (convo.FirstPersonID == act.ActiveProfileID)
             {
                 ViewBag.RecieverID = convo.SecondPersonID;

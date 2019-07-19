@@ -317,13 +317,65 @@ namespace CharceApp.Controllers
 
 
         [Authorize]
-        public ActionResult BulkOrder(int business_id, int personal_id, string time)
+        public ActionResult DesktopBulkOrder(int business_id, int personal_id, string time)
         {
             string myid = User.Identity.GetUserId();
             ActiveProfile active = db.activeprofiles.ToList()
                 .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
 
 
+
+            ListOrder listorder = db.listorders.ToList()
+                .Where(x => x.BusinessID == business_id && x.PersonalAccID == personal_id && x.Date.TimeOfDay.ToString().Substring(0, 5) == time)
+                .FirstOrDefault();
+            List<ProductListOrder> productorder = db.productlistorders.ToList()
+                .Where(x => x.ListOrderID == listorder.ID).ToList();
+
+            List<Order> orders = new List<Order>();
+            double total = 0;
+            bool im_business = false;
+
+            foreach (ProductListOrder p in productorder)
+            {
+                Order order = db.orders.ToList().Where(x => x.ID == p.OrderID).FirstOrDefault();
+                if (order != null)
+                {
+
+                    orders.Add(order);
+                    total += order.Price * order.Qauntity;
+                }
+            }
+
+            if (listorder.BusinessID == active.ActiveProfileID)
+            {
+                im_business = true;
+            }
+            if (listorder.BusinessID == active.ActiveProfileID && listorder.Status == "Pending")
+            {
+
+                listorder.Status = "Seen";
+                db.SaveChanges();
+            }
+            ViewBag.ImBusiness = im_business;
+            ViewBag.OrderID = listorder.ID;
+            ViewBag.Status = listorder.Status;
+            ViewBag.Total = total;
+            ViewBag.PersonalID = personal_id;
+
+            return View(orders);
+        }
+
+
+
+
+        [Authorize]
+        public ActionResult BulkOrder(int business_id, int personal_id, string time)
+        {
+            string myid = User.Identity.GetUserId();
+            ActiveProfile active = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+
+            PersonalAccount customer = db.personalaccounts.ToList().Where(x => x.ID == personal_id).FirstOrDefault();
 
             ListOrder listorder = db.listorders.ToList()
                 .Where(x => x.BusinessID == business_id && x.PersonalAccID == personal_id && x.Date.TimeOfDay.ToString().Substring(0, 5) == time)
@@ -360,6 +412,7 @@ namespace CharceApp.Controllers
             ViewBag.Status = listorder.Status;
             ViewBag.Total = total;
             ViewBag.PersonalID = personal_id;
+            ViewBag.CustomerName = customer.Names + " " + customer.Surname;
 
             return View(orders);
         }
