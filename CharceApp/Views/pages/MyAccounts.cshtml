@@ -4,31 +4,44 @@
     ViewBag.Title = "MyAccounts";
 }
 
+<div class="row">
 
-<div style="margin-left:1.3rem">
-    <div class="ui card">
-        <div class="content">
-            <div class="center aligned header">@ViewBag.AccountName</div>
-            <div class="center aligned description">
-                <p>@ViewBag.AccountType</p>
+    <div class="col-lg-4">
+
+    </div>
+    <div class="col-lg-4">
+
+        <div style="margin-left:1.3rem;text-align:center">
+            <div class="ui card">
+                <div class="content">
+                    <div class="center aligned header">@ViewBag.AccountName</div>
+                    <div class="center aligned description">
+                        <p>@ViewBag.AccountType</p>
+                    </div>
+                </div>
+                <div class="extra content">
+                    <div class="center aligned author">
+                        @{
+                            if (ViewBag.isPersonalAccount)
+                            {
+                                <img class="ui avatar image" src="/ProfilePicFile/Index/@ViewBag.AccountID"> @ViewBag.AccountName
+                            }
+                            else
+                            {
+                                <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@ViewBag.AccountID"> @ViewBag.AccountName
+                            }
+                        }
+
+
+                    </div>
+                </div>
             </div>
+
         </div>
-        <div class="extra content">
-            <div class="center aligned author">
-                @{
-                    if (ViewBag.isPersonalAccount)
-                    {
-                        <img class="ui avatar image" src="/ProfilePicFile/Index/@ViewBag.AccountID"> @ViewBag.AccountName
-                    }
-                    else
-                    {
-                        <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@ViewBag.AccountID"> @ViewBag.AccountName
-                    }
-                }
-                
-                
-            </div>
-        </div>
+
+    </div>
+    <div class="col-lg-4">
+
     </div>
 
 </div>

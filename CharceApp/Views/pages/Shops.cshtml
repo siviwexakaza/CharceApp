@@ -128,45 +128,60 @@
     </a>
 </div>
 
-
+<div class="ui  list" style="margin-top:30px">
     @foreach (var item in Model)
     {
 
-        <div class="ui divided items" style="margin-top:10px;margin-bottom:30px">
-            <div class="item">
-                <div class="image">
-                    <img src="/ProfilePicFile/Business_Pic/@item.ID">
-                </div>
-                <div class="content">
-                    <a href="/pages/businessprofile/@item.ID" class="header">@item.BusinessName</a>
-                    
-                    <div class="description">
-                        <p>@item.Location</p>
-                        <p>@item.Email | @item.Phone</p>
-
+        @*<div class="ui divided items" style="margin-top:10px;margin-bottom:30px">
+                <div class="item">
+                    <div class="image">
+                        <img src="/ProfilePicFile/Business_Pic/@item.ID">
                     </div>
-                    <div class="extra">
-                   
+                    <div class="content">
+                        <a href="/pages/businessprofile/@item.ID" class="header">@item.BusinessName</a>
 
-                        <div class="ui label"><i class="globe icon"></i> @item.BusinessType Company</div>
+                        <div class="description">
+                            <p>@item.Location</p>
+                            <p>@item.Email | @item.Phone</p>
+
+                        </div>
+                        <div class="extra">
+
+
+                            <div class="ui label"><i class="globe icon"></i> @item.BusinessType Company</div>
+                        </div>
                     </div>
                 </div>
+
+            </div>*@
+
+
+
+        <div class="item" style="margin-top:20px">
+            <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@item.ID">
+            <div class="content">
+                <div class="header"><h3 style="font-weight:100"><a style="font-weight:100" href="/pages/businessprofile/@item.ID" class="header">@item.BusinessName</a></h3></div>
+                @item.Location
             </div>
-
         </div>
+
+
 
 
 
         @*<div class="ui relaxed horizontal list" style="margin-top:50px;margin-right:5px">
 
-            <div class="item">
-                <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@item.ID">
-                <div class="content">
-                    <a href="/pages/BusinessProfile/@item.ID" class="header">@item.BusinessName</a>
+                <div class="item">
+                    <img class="ui avatar image" src="/ProfilePicFile/Business_Pic/@item.ID">
+                    <div class="content">
+                        <a href="/pages/BusinessProfile/@item.ID" class="header">@item.BusinessName</a>
+                    </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
     }
+</div>
+
+
 
 
 
@@ -179,16 +194,16 @@
     <div class="ui equal width center aligned padded grid">
 
         <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
-            <div class="column">
-                <a href="/home/index" style="color:white">Chat</a>
+            <div class="column" style="opacity:0.5">
+                <a href="/home/index" style="color:white"><span class="glyphicon glyphicon-comment"></span></a>
 
             </div>
-            <div class="column">
-                <a href="/pages/shops" style="color:white">My Shops</a>
+            <div class="column" >
+                <a href="/pages/shops" style="color:white"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 
             </div>
-            <div class="column deals-button">
-                <a href="/pages/deals" style="color:white">Deals</a>
+            <div class="column deals-button" style="opacity:0.5">
+                <a href="/pages/deals" style="color:white"><span class="glyphicon glyphicon-tags"></span></a>
 
             </div>
         </div>

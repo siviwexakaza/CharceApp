@@ -61,21 +61,23 @@
     </a>
 </div>
 
+<div class="edit_profile" style="margin-top:20px;margin-bottom:100px">
+    Edit Profile
 
-<div class="ui buttons" style="margin-left:1.3rem">
-    <a href="/pages/openmessage?RecieverID=@ViewBag.BusinessID" class="ui labeled icon button">
-        <i class="envelope icon"></i>
-        Send Message
-    </a>
-    @*<button class="ui button">
-            <i class="envelope icon"></i>
-            Inbox
-        </button>*@
-    <a href="#" class="ui right labeled icon button">
-        Like Us
-        <i class="heart icon"></i>
-    </a>
+    <form action="/logic/EditBisunessProfile" style="margin-top:10px">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="New Name" value="@ViewBag.Name" />
+        <label for="phone">Phone Number</label>
+        <input type="text" class="form-control" name="phone" id="phone" placeholder="New Phone Number" value="@ViewBag.Phone" />
+        <label for="name">Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="New Email" value="@ViewBag.Email" />
+        <input type="hidden" class="form-control" name="id" id="id" placeholder="New Email" value="@ViewBag.BusinessID" />
+        <br />
+        <input type="submit" class="btn btn-default" value="Save" />
+    </form>
+
 </div>
+
 
 
 
@@ -87,17 +89,14 @@
         <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
             <div class="column deals-button">
                 <p>
-                    <a href="/profilepicsbusiness/create?BusinessID=@ViewBag.BusinessID" style="text-decoration:none;color:white">Edit Profile Picture</a>
+                    <a href="/profilepicsbusiness/create?BusinessID=@ViewBag.BusinessID" style="text-decoration:none;color:white"><span class="glyphicon glyphicon-camera"></span></a>
                 </p>
-
-
             </div>
+            
             <div class="column deals-button">
                 <p>
-                    <a href="/profilepicsproduct/create?BusinessID=@ViewBag.BusinessID" style="text-decoration:none;color:white">Add Product</a>
+                    <a href="/profilepicsproduct/create?BusinessID=@ViewBag.BusinessID" style="text-decoration:none;color:white"><span class="glyphicon glyphicon-shopping-cart"></span></a>
                 </p>
-
-
             </div>
         </div>
 

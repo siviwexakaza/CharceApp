@@ -12,6 +12,53 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult SwitchAcc()
+        {
+            string myid = User.Identity.GetUserId();
+            PersonalAccount p = db.personalaccounts.ToList().Where(x => x.AppUserId == myid).FirstOrDefault();
+            ActiveProfile a = db.activeprofiles.ToList().Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+            a.AccountType = "Personal";
+            a.ActiveProfileID = p.ID;
+            db.SaveChanges();
+            return RedirectToAction("shops","pages");
+        }
+
+
+        public ActionResult OurOrders(int page)
+        {
+            string myid = User.Identity.GetUserId();
+            ActiveProfile act = db.activeprofiles.ToList()
+                .Where(x => x.ApplicationUserId == myid).FirstOrDefault();
+
+            if (act.AccountType == "Business")
+            {
+                List<Order> orders = db.orders.ToList()
+                .Where(x => x.BusinessID == act.ActiveProfileID).ToList();
+                double sold = 0;
+
+                foreach(Order o in orders)
+                {
+                    sold += o.Total;
+                }
+                int Skip = 0;
+                ViewBag.Sold = sold;
+                if (page == 1)
+                {
+                    Skip = 0;
+                }
+                else
+                {
+                    Skip = page * 10;
+                }
+                return View(orders.OrderByDescending(x=>x.ID).Skip(Skip - 10).Take(10));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+   
+        }
+
 
         [Authorize]
         public ActionResult ProceedCheckout(string price)

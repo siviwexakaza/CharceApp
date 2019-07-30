@@ -34,11 +34,17 @@
                                 @{
                                     if (ViewBag.isPersonalAccount)
                                     {
-                                        <img src="/profilepicfile/index/@ViewBag.AccountID">
+                                        <a href="/pages/myaccounts">
+                                            <img src="/profilepicfile/index/@ViewBag.AccountID">
+                                        </a>
+                                        
                                     }
                                     else
                                     {
-                                        <img src="/profilepicfile/Business_Pic/@ViewBag.AccountID">
+                                        <a href="/pages/myaccounts">
+                                            <img src="/profilepicfile/Business_Pic/@ViewBag.AccountID">
+                                        </a>
+                                        
                                     }
                                 }
                                 
@@ -49,14 +55,19 @@
                             <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true" ></i>
                         </div>
                         <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
-                            <a href="/pages/myaccounts">
-                                <i class="fa fa-user fa-2x  pull-right" aria-hidden="true"></i>
-                            </a>
+
+                            @{
+                                if (!ViewBag.isPersonalAccount)
+                                {
+                                    <a href="/pages/ourorders/?page=1">
+                                        <i class="fa fa-tags fa-2x  pull-right" aria-hidden="true"></i>
+                                    </a>
+                                }
+                            }
+                            
                             
                         </div>
                     </div>
-
-
 
 
                     <div class="row searchBox">
@@ -200,9 +211,7 @@
                                                                 <b>@item.SecondPersonDispName</b>
                                                             }
                                                         }
-
-
-                                                        
+  
                                                     </a>
                                                     <br />
                                                     <span>
@@ -385,7 +394,7 @@
                     if (ViewBag.hasSearch)
                     {
                         <form action="/home/index">
-                            <div class="ui fluid icon input" style="margin-bottom:20px">
+                            <div class="ui fluid icon input" style="margin-bottom:20px;margin-top:20px">
                                 <input type="text" placeholder="Search..." name="search" value="@ViewBag.Search">
                                 <i class="search icon"></i>
                             </div>
@@ -395,7 +404,7 @@
                     else
                     {
                         <form action="/home/index">
-                            <div class="ui fluid icon input" style="margin-bottom:20px">
+                            <div class="ui fluid icon input" style="margin-bottom:20px;margin-top:20px">
                                 <input type="text" placeholder="Search..." name="search">
                                 <i class="search icon"></i>
                             </div>
@@ -572,15 +581,15 @@
 
                     <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
                         <div class="column">
-                            <a href="/home/index" style="color:white">Chat</a>
+                            <a href="/home/index" style="color:white"><span class="glyphicon glyphicon-comment"></span></a>
 
                         </div>
-                        <div class="column">
-                            <a href="/pages/shops" style="color:white">My Shops</a>
+                        <div class="column" style="opacity:0.5">
+                            <a href="/pages/shops" style="color:white"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 
                         </div>
-                        <div class="column deals-button">
-                            <a href="/pages/deals" style="color:white">Deals</a>
+                        <div class="column deals-button" style="opacity:0.5">
+                            <a href="/pages/deals" style="color:white"><span class="glyphicon glyphicon-tags"></span></a>
 
                         </div>
                     </div>

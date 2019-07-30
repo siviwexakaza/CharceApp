@@ -131,196 +131,255 @@
 
 }
 
+<div style="margin-bottom:100px">
 
+    @{
 
-@{
-
-    if (ViewBag.ImBusiness)
-    {
-
-
-        if (ViewBag.Status == "Pending")
+        if (ViewBag.ImBusiness)
         {
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui green button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
-            </div>
+            if (ViewBag.Status == "Delivered")
+            {
 
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
-            </div>
+                <div class="three ui buttons">
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button disabled">Pending</a>
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button disabled">Accept</a>
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button disabled">Decline</a>
+                </div>
 
-            <div class="two ui buttons">
+                <div class="three ui buttons">
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button disabled">Seen</a>
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button disabled">Shipped</a>
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui green button disabled">Delivered</a>
+                </div>
 
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+                <div class="two ui buttons">
 
-            </div>
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button disabled">Ready To Pick Up</a>
+                    <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                </div>
+
+            }
+            else
+            {
+
+                if (ViewBag.Status == "Pending")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui green button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
+                    </div>
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+
+                }
+                else if (ViewBag.Status == "Accepted")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui green button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
+                    </div>
+
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+                }
+                else if (ViewBag.Status == "Declined")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui green button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
+                    </div>
+
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+                }
+                else if (ViewBag.Status == "Seen")
+                {
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui green button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
+                    </div>
+
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+
+                }
+                else if (ViewBag.Status == "Shipped")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui green button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
+                    </div>
+
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+                }
+                else if (ViewBag.Status == "Delivered")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui green button">Delivered</a>
+                    </div>
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+
+                }
+                else if (ViewBag.Status == "Ready to Pickup")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
+                    </div>
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui green button">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
+
+                    </div>
+
+                }
+                else if (ViewBag.Status == "Returned")
+                {
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button disabled">Pending</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button disabled">Accept</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button disabled">Decline</a>
+                    </div>
+
+                    <div class="three ui buttons">
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button disabled">Seen</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button disabled">Shipped</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button disabled">Delivered</a>
+                    </div>
+
+                    <div class="two ui buttons">
+
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button disabled">Ready To Pick Up</a>
+                        <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui green button disabled">Order Returned</a>
+
+                    </div>
+
+                }
+
+
+
+            }
+
+
+
 
         }
-        else if (ViewBag.Status == "Accepted")
-        {
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui green button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
-            </div>
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
-            </div>
 
 
-            <div class="two ui buttons">
-
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
-
-            </div>
-        }
-        else if (ViewBag.Status == "Declined")
-        {
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui green button">Decline</a>
-            </div>
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
-            </div>
-
-
-            <div class="two ui buttons">
-
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
-
-            </div>
-        }
-        else if (ViewBag.Status == "Seen")
-        {
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
-            </div>
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui green button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
-            </div>
-
-
-            <div class="two ui buttons">
-
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
-
-            </div>
-
-        }
-        else if (ViewBag.Status == "Shipped")
-        {
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
-            </div>
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui green button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
-            </div>
-
-
-            <div class="two ui buttons">
-
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
-
-            </div>
-        }
-        else if (ViewBag.Status == "Delivered")
-        {
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
-            </div>
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui green button">Delivered</a>
-            </div>
-
-            <div class="two ui buttons">
-
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
-
-            </div>
-
-        }
-        else if (ViewBag.Status == "Ready to Pickup")
-        {
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Pending" class="ui button">Pending</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Accepted" class="ui button">Accept</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Declined" class="ui button">Decline</a>
-            </div>
-
-            <div class="three ui buttons">
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Seen" class="ui button">Seen</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Shipped" class="ui button">Shipped</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Delivered" class="ui button">Delivered</a>
-            </div>
-
-            <div class="two ui buttons">
-
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Ready to Pickup" class="ui green button">Ready To Pick Up</a>
-                <a href="/logic/ChangeOrderStatus?listorderid=@ViewBag.OrderID&newstatus=Returned" class="ui button">Order Returned</a>
-
-            </div>
-
-        }
 
     }
 
 
+</div>
 
-}
+
 
 
 @{
     if (Request.Browser.IsMobileDevice)
     {
+
         <div class="bottom_menu">
 
             <div class="ui equal width center aligned padded grid">
 
                 <div class="row" style="color:white;font-weight:100 !important;font-size:1.3rem">
                     <div class="column">
-                        <a href="/home/index" style="color:white">Chat</a>
+                        <a href="/home/index" style="color:white"><span class="glyphicon glyphicon-comment"></span></a>
 
                     </div>
                     <div class="column">
-                        <a href="/pages/shops" style="color:white">My Shops</a>
+                        <a href="/pages/shops" style="color:white"><span class="glyphicon glyphicon-shopping-cart"></span></a>
 
                     </div>
                     <div class="column deals-button">
-                        <a href="/pages/deals" style="color:white">Deals</a>
+                        <a href="/pages/deals" style="color:white"><span class="glyphicon glyphicon-tags"></span></a>
 
                     </div>
                 </div>
@@ -329,6 +388,7 @@
             </div>
 
         </div>
+
     }
 }
 

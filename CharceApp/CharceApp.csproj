@@ -225,6 +225,8 @@
     <Content Include="Content\alert.wav" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Charce Icon Round.png" />
+    <Content Include="Content\Charce Icon.png" />
     <Content Include="Content\desktopstyle.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\semantic.min.css" />
@@ -330,6 +332,7 @@
     <Content Include="Views\pages\ProceedCheckout.cshtml" />
     <Content Include="Views\PartialViews\_DesktopMessages.cshtml" />
     <Content Include="Views\pages\DesktopBulkOrder.cshtml" />
+    <Content Include="Views\pages\OurOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

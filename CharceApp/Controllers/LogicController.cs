@@ -12,6 +12,18 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult EditBisunessProfile(int id, string name, string phone,string email)
+        {
+            BusinessAccount biz = db.businessaccounts.ToList().Where(x => x.ID == id).FirstOrDefault();
+            biz.BusinessName = name;
+            biz.Phone = phone;
+            biz.Email = email;
+
+            db.SaveChanges();
+
+            return RedirectToAction("myaccounts", "pages");
+        }
+
         public void mark_as_read(int convo_id)
         {
             Conversation conv = db.conversations.ToList().Where(x => x.ID == convo_id).FirstOrDefault();
