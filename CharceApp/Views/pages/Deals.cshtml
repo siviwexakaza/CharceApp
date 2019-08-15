@@ -22,6 +22,8 @@
                     CharceApp.Models.ProfilePic_Product product = db.profilepic_products.ToList()
                     .Where(x => x.ID == item.ProductID).FirstOrDefault();
 
+                    CharceApp.Models.OptimaziedProductPic optpic = db.optimazedProductPics.ToList().Where(x => x.ProductID == item.ProductID).FirstOrDefault();
+
 
 
                     <div class="card" style="margin-right:15px">
@@ -29,7 +31,8 @@
                         <div class="ui divided items">
                             <div class="item">
                                 <div class="image">
-                                    <img src="/ProfilePicFile/ProductPic/@product.ID">
+                                    <img src="@optpic.ImageURL">
+                                    @*<img src="/ProfilePicFile/ProductPic/@product.ID">*@
                                 </div>
                                 <div class="content">
                                     <a class="header">@product.Name</a>
@@ -81,6 +84,8 @@
                                                                 .Where(x => x.PersonalAccountID == ViewBag.MyID && x.ProfilePicProductID == item.ProductID)
                                                                 .FirstOrDefault();
 
+                                                            CharceApp.Models.OptimaziedProductPic optpic = db.optimazedProductPics.ToList().Where(x => x.ProductID == item.ProductID).FirstOrDefault();
+
                                                             if (cart != null)
                                                             {
                                                                 inCart = true;
@@ -96,7 +101,8 @@
                                                                 <div class="ui divided items">
                                                                     <div class="item">
                                                                         <div class="image">
-                                                                            <img src="/ProfilePicFile/ProductPic/@product.ID">
+                                                                            <img src="@optpic.ImageURL">
+                                                                            @*<img src="/ProfilePicFile/ProductPic/@product.ID">*@
                                                                         </div>
                                                                         <div class="content">
                                                                             <a class="header">@product.Name</a>

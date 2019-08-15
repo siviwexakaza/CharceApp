@@ -117,7 +117,9 @@ namespace CharceApp.Controllers
                 
                 db.profilepic_products.Add(profilePic);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+
+                int propicid = profilePic.ID;
+                return RedirectToAction("ProductUploaded", "Pages", new {prod_id = propicid, business_id=BusinessID });
             }
 
             return View(profilePic);

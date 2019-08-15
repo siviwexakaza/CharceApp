@@ -7,9 +7,19 @@
 
 <div class="ui divided items">
     <div class="item">
-        <div class="image">
-            <img src="/ProfilePicFile/ProductPic/@Model.ID">
-        </div>
+        @using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
+        {
+
+            CharceApp.Models.OptimaziedProductPic optpic = db.optimazedProductPics.ToList().Where(x => x.ProductID == Model.ID).FirstOrDefault();
+
+            <div class="image">
+                <img src="@optpic.ImageURL">
+                @*<img src="/ProfilePicFile/ProductPic/@Model.ID">*@
+            </div>
+
+        }
+
+        
         <div class="content">
             <a class="header">@Model.Name | @Model.Price</a>
             <div class="meta">

@@ -12,6 +12,14 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        public string getImgUrl(int id)
+        {
+            OptimaziedProductPic pic = db.optimazedProductPics.ToList().Where(x => x.ProductID == id).FirstOrDefault();
+            string img = pic.ImageURL;
+            return img;
+
+        }
+
         public ActionResult EditBisunessProfile(int id, string name, string phone,string email)
         {
             BusinessAccount biz = db.businessaccounts.ToList().Where(x => x.ID == id).FirstOrDefault();

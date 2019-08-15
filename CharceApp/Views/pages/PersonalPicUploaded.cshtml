@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "PersonalPicUploaded";
+}
+
+<h4 class="text-center" style="margin-top:250px">
+    Compressing image, please wait...
+</h4>
+
+
+<input type="hidden" value="@ViewBag.PersonalID" class="bisid" />
+<input type="hidden" value="@ViewBag.PicID" class="pic" />
+
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+
+            var personalid = $('.bisid').val();
+            var picid = $('.pic').val();
+
+            var url = `http://charceapp-001-site1.atempurl.com/ProfilePicFile/Index/${picid}`;
+           
+
+            $.post('https://aqueous-refuge-43615.herokuapp.com/upload/', { "link": url }, function (data) {
+                var pic_url = data.kraked_url;
+
+                $.get('/pages/CompressPersonalPic?ImageURL=' + pic_url + '&PersonalID=' + personalid + '', null, function (da) {
+                    window.location.href = `/pages/myaccounts`;
+                });
+            });
+
+
+
+           // $.get('http://localhost:5000', function (d) { console.log(d); });
+
+
+
+
+		});
+    </script>
+}
+

@@ -80,7 +80,7 @@ namespace CharceApp.Controllers
                 }
                 db.profilepic_businesses.Add(profilePic);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("BusinessPicUploaded", "pages",new { business_id = BusinessID});
             }
 
             return View(profilePic);

@@ -28,12 +28,15 @@
     <div class="ui two cards" style="margin-bottom:70px">
         @foreach (var item in Model)
         {
+            string imgurl;
             string comName;
             List<int> prods = new List<int>();
             using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
             {
                 CharceApp.Models.BusinessAccount ba = db.businessaccounts.ToList().Where(x => x.ID == item.BusinessId).FirstOrDefault();
                 comName = ba.BusinessName;
+                CharceApp.Models.OptimaziedProductPic optpic = db.optimazedProductPics.ToList().Where(x => x.ProductID == item.ID).FirstOrDefault();
+                imgurl = optpic.ImageURL;
 
                 List<CharceApp.Models.Cart> myCart = db.carts.ToList().Where(x => x.PersonalAccountID == ViewBag.MyID).ToList();
 
@@ -50,7 +53,8 @@
                 
             </div>
             <div class="image">
-                <img src="/ProfilePicFile/ProductPic/@item.ID">
+                @*<img src="/ProfilePicFile/ProductPic/@item.ID">*@
+                <img src="@imgurl">
             </div>
             <div class="extra">
                 @item.Name | R @item.Price | <a href="https://wa.me/?text=Message from Charce" style="color:Highlight">Share</a>

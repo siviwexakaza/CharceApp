@@ -12,6 +12,70 @@ namespace CharceApp.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        public JsonResult Compress(int ProductID,string ImageURL,int BusinessID)
+        {
+            OptimaziedProductPic pic = new OptimaziedProductPic() {
+                BusinessID=BusinessID,ImageURL=ImageURL,ProductID=ProductID
+            };
+
+            db.optimazedProductPics.Add(pic);
+            db.SaveChanges();
+
+            return Json(pic, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ProductUploaded(int prod_id, int business_id)
+        {
+            ViewBag.ProductID = prod_id;
+            ViewBag.BusinessID = business_id;
+            return View();
+        }
+
+
+
+        public JsonResult CompressBusinessPic(string ImageURL, int BusinessID)
+        {
+            OptimizedBusinessPic pic = new OptimizedBusinessPic() {
+                BusinessID=BusinessID,ImageURL=ImageURL
+            };
+
+            db.optimizedbusinesspics.Add(pic);
+            db.SaveChanges();
+
+            return Json(pic, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BusinessPicUploaded(int business_id)
+        {
+            
+            ViewBag.BusinessID = business_id;
+            return View();
+        }
+
+
+
+        public JsonResult CompressPersonalPic(string ImageURL, int PersonalID)
+        {
+            OptimizedPersonalPic pic = new OptimizedPersonalPic() {
+                ImageURL=ImageURL, PersonID=PersonalID
+            };
+            db.optimizedpersonalpic.Add(pic);
+            db.SaveChanges();
+
+            return Json(pic, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PersonalPicUploaded(int personal_id,int pic_id)
+        {
+
+            ViewBag.PersonalID = personal_id;
+            ViewBag.PicID = pic_id;
+            return View();
+        }
+
+
+
+
         public ActionResult SwitchAcc()
         {
             string myid = User.Identity.GetUserId();

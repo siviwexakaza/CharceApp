@@ -48,7 +48,7 @@
         $(this).addClass('loading');
         
         $.post('/profiles/AddProfile', BusinessAccountVM, function (d) {
-            window.location.replace("/pages/myaccounts");
+            window.location.replace('/profilepicsbusiness/create?BusinessID='+d.ID+'');
         });
     });
 

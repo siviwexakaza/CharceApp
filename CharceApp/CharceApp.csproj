@@ -210,6 +210,9 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\NewMessageNotification.cs" />
+    <Compile Include="Models\OptimaziedProductPic.cs" />
+    <Compile Include="Models\OptimizedBusinessPic.cs" />
+    <Compile Include="Models\OptimizedPersonalPic.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\PersonalAccount.cs" />
     <Compile Include="Models\ProductListOrder.cs" />
@@ -333,6 +336,9 @@
     <Content Include="Views\PartialViews\_DesktopMessages.cshtml" />
     <Content Include="Views\pages\DesktopBulkOrder.cshtml" />
     <Content Include="Views\pages\OurOrders.cshtml" />
+    <Content Include="Views\pages\ProductUploaded.cshtml" />
+    <Content Include="Views\pages\BusinessPicUploaded.cshtml" />
+    <Content Include="Views\pages\PersonalPicUploaded.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

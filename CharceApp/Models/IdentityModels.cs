@@ -54,6 +54,9 @@ namespace CharceApp.Models
         public DbSet<Deal> deals { get; set; }
 
         public DbSet<ShippingAddress> shippinaddresses { get; set; }
+        public DbSet<OptimaziedProductPic> optimazedProductPics { get; set; }
+        public DbSet<OptimizedBusinessPic> optimizedbusinesspics { get; set; }
+        public DbSet<OptimizedPersonalPic> optimizedpersonalpic { get; set; }
 
     }
 }

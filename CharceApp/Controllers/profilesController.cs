@@ -32,7 +32,7 @@ namespace CharceApp.Controllers
             db.businessaccounts.Add(ba);
             db.SaveChanges();
 
-            return Json("Account Added", JsonRequestBehavior.AllowGet);
+            return Json(ba, JsonRequestBehavior.AllowGet);
         }
 
 

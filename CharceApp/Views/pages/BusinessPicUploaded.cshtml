@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "BusinessPicUploaded";
+}
+
+<h4 class="text-center" style="margin-top:250px">
+    Compressing image, please wait...
+</h4>
+
+
+<input type="hidden" value="@ViewBag.BusinessID" class="bisid" />
+
+
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            
+            var businessid = $('.bisid').val();
+            var url = `http://charceapp-001-site1.atempurl.com/ProfilePicFile/Business_Pic/${businessid}`;
+           
+
+            $.post('https://aqueous-refuge-43615.herokuapp.com/upload/', { "link": url }, function (data) {
+                var pic_url = data.kraked_url;
+
+                $.get('/pages/CompressBusinessPic?ImageURL=' + pic_url + '&BusinessID=' + businessid + '', null, function (da) {
+                    window.location.href = `/pages/myaccounts`;
+                });
+            });
+
+
+
+
+		});
+    </script>
+}
+

@@ -95,7 +95,7 @@ namespace CharceApp.Models
                 }
                 db.profilepics.Add(profilePic);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("personalpicuploaded", "pages",new { personal_id=p_acc.ID, pic_id=profilePic.ID });
             }
 
             return View(profilePic);

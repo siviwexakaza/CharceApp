@@ -452,7 +452,10 @@
                                                     using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
                                                     {
                                                         CharceApp.Models.ProfilePic p = db.profilepics.ToList().Where(x => x.UserId == item.FirstPersonID).FirstOrDefault();
-                                                        <img src="/profilepicfile/index/@p.ID">
+
+                                                        CharceApp.Models.OptimizedPersonalPic ppic = db.optimizedpersonalpic.ToList().Where(x => x.PersonID == p.UserId).FirstOrDefault();
+                                                        @*<img src="/profilepicfile/index/@p.ID">*@
+                                                        <img src="@ppic.ImageURL" alt="pic">
                                                     }
 
                                                 }
@@ -501,20 +504,35 @@
                                                             <span class="avatar">
 
                                                                 @{
-                                                                    if (item.FirstPersonDispName == ViewBag.AccountName)
+                                                                    using (CharceApp.Models.ApplicationDbContext db = new CharceApp.Models.ApplicationDbContext())
                                                                     {
 
-                                                                        <img src="/profilepicfile/Business_Pic/@item.SecondPersonID">
 
 
+                                                                        if (item.FirstPersonDispName == ViewBag.AccountName)
+                                                                        {
+                                                                            CharceApp.Models.OptimizedBusinessPic dp = db.optimizedbusinesspics.ToList()
+                                                                                .Where(x => x.BusinessID == item.SecondPersonID).FirstOrDefault();
+
+                                                                         @*<img src="/profilepicfile/Business_Pic/@item.SecondPersonID">*@
+                                                                            <img src="@dp.ImageURL" alt="pic">
+
+
+
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            CharceApp.Models.OptimizedBusinessPic dp = db.optimizedbusinesspics.ToList()
+                                                                                .Where(x => x.BusinessID == item.FirstPersonID).FirstOrDefault();
+
+                                                                            <img src="@dp.ImageURL" alt="pic">
+
+                                                                        @*<img src="/profilepicfile/Business_Pic/@item.FirstPersonID">*@
 
                                                                     }
-                                                                    else
-                                                                    {
-
-                                                                        <img src="/profilepicfile/Business_Pic/@item.FirstPersonID">
-
                                                                     }
+
                                                                 }
 
 
